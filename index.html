@@ -160,6 +160,7 @@ section{position:relative}
 /* covers (generated art per case) */
 .cover{position:relative;background:var(--tone);color:#fff;border-radius:14px;overflow:hidden;aspect-ratio:4/3;isolation:isolate}
 .cover svg{position:absolute;inset:0;width:100%;height:100%}
+.cover .cv-img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
 .cover .cv-name{position:absolute;left:6%;bottom:7%;right:6%;font:800 clamp(1.4rem,3.2vw,3rem)/.92 var(--f-display);letter-spacing:-.045em;text-wrap:balance;z-index:2}
 .cover .cv-tag{position:absolute;left:6%;top:7%;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:5px 10px;z-index:2}
 .cover::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 85% 0%,rgba(255,255,255,.18),transparent 55%),linear-gradient(to top,rgba(0,0,0,.35),transparent 50%);z-index:1;pointer-events:none}
@@ -1104,9 +1105,14 @@ function coverSVG(d) {
     <polyline points="40,250 90,230 130,236 170,196 205,186 240,140" ${s}/><path d="M228 140 L242 138 L240 152" ${s}/>
     <rect x="48" y="258" width="22" height="0" ${f}/></svg>`;
 }
+const COVER_IMGS = new Set(["abhiyantri-web", "arogya-ads", "arogya-app", "arogya-social", "bubbles-ads", "dxn-ads", "dxn-web", "fastrack-social", "girija-web", "nari18-ads", "nari18-social", "nikunj-ads", "nikunj-web", "noidadrive-app", "omjyoti-web", "propertylelo-ads", "propertylelo-app", "propertylelo-web", "samrajya-ads", "samrajya-web", "srm-ads", "srm-web", "tirthnow-ads", "tirthnow-web", "vanliferavi-social", "velmo-web"]);
+function coverArt(c) {
+  const k = `${c.c}-${c.d}`;
+  return COVER_IMGS.has(k) ? `<img class="cv-img" src="assets/covers/${k}.jpg" alt="" loading="lazy" decoding="async">` : coverSVG(c.d);
+}
 function coverHTML(c, opt = {}) {
   const cl = CLIENTS[c.c];
-  return `<div class="cover" style="--tone:${cl.tone}">${coverSVG(c.d)}<span class="cv-tag">${DISCIPLINES[c.d].short}${c.status ? " · " + esc(c.status) : ""}</span><div class="cv-name">${esc(opt.name || cl.name)}</div></div>`;
+  return `<div class="cover" style="--tone:${cl.tone}">${coverArt(c)}<span class="cv-tag">${DISCIPLINES[c.d].short}${c.status ? " · " + esc(c.status) : ""}</span><div class="cv-name">${esc(opt.name || cl.name)}</div></div>`;
 }
 
 /* ---------------- marquee ---------------- */
