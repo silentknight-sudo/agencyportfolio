@@ -1,0 +1,1485 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>StudioAdsPro Portfolio</title>
+<meta name="description" content="StudioAdsPro — AI, Web & Performance Marketing agency in Greater Noida. Websites, apps, custom software, Meta Ads and social media case studies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: paper hero with a 3D extruded logo → ink circle reveal (from the logo film) → alternating ink/paper chapters → case studies open as a full-screen overlay. */
+:root{
+  --ink:#0B0B0B; --ink-2:#151515; --ink-3:#202020;
+  --paper:#F5F5F2; --paper-2:#EAEAE6;
+  --on-ink:#F5F5F2; --on-ink-mute:#8E8E89; --line-ink:rgba(245,245,242,.13);
+  --on-paper:#0B0B0B; --on-paper-mute:#64645F; --line-paper:rgba(11,11,11,.13);
+  --f-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --f-body:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,4vw,56px);
+  --ease:cubic-bezier(.7,0,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ink)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--ink);color:var(--on-ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+img,svg,video,canvas{display:block;max-width:100%}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:4px}
+.wrap{padding-inline:var(--gut);max-width:1600px;margin-inline:auto}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.paper{background:var(--paper);color:var(--on-paper)}
+.paper .mute{color:var(--on-paper-mute)}
+.mute{color:var(--on-ink-mute)}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:800;margin:0;letter-spacing:-.035em;line-height:.95;text-wrap:balance}
+p{margin:0}
+.pill{display:inline-block;background:currentColor;border-radius:.2em;padding:0 .14em .04em;transform:rotate(-2.5deg);line-height:1}
+.pill>span{color:var(--paper)}
+.paper .pill>span{color:var(--paper)}
+.ink-pill{background:var(--on-ink)}.ink-pill>span{color:var(--ink)!important}
+
+/* ---------- preloader (logo film) ---------- */
+#intro{position:fixed;inset:0;z-index:100;background:#fff;display:grid;place-items:center;overflow:hidden}
+#intro video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#intro .bar{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:16px;color:#777;mix-blend-mode:difference}
+#intro .track{flex:1;height:1px;background:rgba(255,255,255,.35);position:relative}
+#intro .fill{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+#intro .skip{color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:8px 16px}
+#intro.gone{pointer-events:none}
+
+/* ---------- cursor ---------- */
+.cur{position:fixed;left:0;top:0;z-index:90;pointer-events:none;mix-blend-mode:difference;display:none}
+.cur .dot{width:8px;height:8px;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
+.cur .ring{position:absolute;left:0;top:0;width:44px;height:44px;border:1px solid #fff;border-radius:50%;transform:translate(-50%,-50%);transition:width .35s var(--ease),height .35s var(--ease),background .35s}
+.cur.hover .ring{width:84px;height:84px;background:#fff}
+.cur .lbl{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:#000;opacity:0;transition:opacity .2s}
+.cur.hover.has-lbl .lbl{opacity:1}
+@media (hover:hover) and (pointer:fine){.cur{display:block}}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:transform .6s var(--ease);padding-top:env(safe-area-inset-top,0px);mix-blend-mode:difference;color:#fff;pointer-events:none}
+.nav.up{transform:translateY(-110%)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav a,.nav button{pointer-events:auto}
+.brand{display:flex;align-items:center;gap:10px}.brand img{height:34px;width:auto}.brand .wm{height:22px}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.nav ul a{font-size:14px;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav .cta{border:1px solid #fff;border-radius:99px;padding:9px 18px;font-size:14px}
+.nav .menu-btn{display:none;font:500 13px var(--f-mono);text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:900px){.nav ul,.nav .cta{display:none}.nav .menu-btn{display:block}}
+.sheet{position:fixed;inset:0;z-index:70;background:var(--ink);color:var(--on-ink);display:flex;flex-direction:column;justify-content:space-between;padding:calc(90px + env(safe-area-inset-top,0px)) var(--gut) calc(32px + env(safe-area-inset-bottom,0px));clip-path:inset(0 0 100% 0);transition:clip-path .7s var(--ease)}
+.sheet.open{clip-path:inset(0 0 0 0)}
+.sheet a.big{font:800 clamp(2.4rem,11vw,4rem)/1 var(--f-display);letter-spacing:-.04em;display:block;padding:6px 0}
+.sheet .close{position:absolute;top:calc(26px + env(safe-area-inset-top,0px));right:var(--gut);font:500 13px var(--f-mono);text-transform:uppercase}
+
+/* ---------- hero ---------- */
+.hero{position:relative;height:260vh;background:var(--paper);color:var(--on-paper)}
+.hero-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.hero-fallback{position:absolute;right:12%;top:50%;transform:translateY(-50%);width:min(34vw,420px);z-index:1;display:none}
+.no-gl .hero-fallback{display:block}
+.hero-copy{position:absolute;z-index:3;left:0;right:0;bottom:0;top:0;display:flex;flex-direction:column;justify-content:space-between;padding-top:calc(110px + env(safe-area-inset-top,0px));padding-bottom:36px;pointer-events:none}
+.hero-copy a,.hero-copy button{pointer-events:auto}
+.hero-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hero h1{font-size:clamp(3rem,8.2vw,8.8rem);line-height:.86;letter-spacing:-.055em;max-width:9.5ch}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.hero h1 .ln>span{display:inline-block}
+.hero-bottom{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:end}
+.hero-lede{max-width:44ch;font-size:clamp(15px,1.25vw,18px)}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:99px;padding:14px 22px;font-weight:500;font-size:15px;border:1px solid currentColor;transition:background .3s,color .3s;will-change:transform}
+.btn.solid{background:var(--on-paper);color:var(--paper);border-color:var(--on-paper)}
+.btn.solid:hover{background:transparent;color:var(--on-paper)}
+.btn.ghost:hover{background:var(--on-paper);color:var(--paper)}
+.on-ink .btn.solid{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
+.on-ink .btn.solid:hover{background:transparent;color:var(--on-ink)}
+.on-ink .btn.ghost:hover{background:var(--on-ink);color:var(--ink)}
+.hero-meta{display:flex;gap:28px;justify-content:flex-end;flex-wrap:wrap;text-align:right}
+.hero-meta b{display:block;font:800 clamp(1.6rem,2.6vw,2.6rem)/1 var(--f-display);letter-spacing:-.03em}
+.scroll-hint{display:flex;align-items:center;gap:10px}
+.scroll-hint i{width:1px;height:34px;background:var(--line-paper);position:relative;overflow:hidden}
+.scroll-hint i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--on-paper);animation:drip 1.8s infinite var(--ease)}
+@keyframes drip{to{top:110%}}
+.hero-ink{position:absolute;inset:0;z-index:4;background:var(--ink);color:var(--on-ink);clip-path:circle(0% at 72% 50%);display:grid;place-items:center;text-align:center;padding-inline:var(--gut)}
+.hero-ink>div{opacity:0}
+.hero-ink .badge{width:min(42vw,220px);aspect-ratio:1;border-radius:50%;background:var(--paper);display:grid;place-items:center;margin:0 auto 28px}
+.hero-ink .badge img{width:60%}
+.hero-ink h2{font-size:clamp(2rem,5.4vw,5.2rem);max-width:16ch;margin-inline:auto}
+@media (max-width:900px){
+  .hero-bottom{grid-template-columns:1fr}
+  .hero-meta{justify-content:flex-start;text-align:left}
+  .hero h1{font-size:clamp(2.6rem,12.5vw,4.6rem)}
+  .hero-top{display:none!important}
+  .hero-copy{justify-content:flex-end;gap:28px}
+  .hero-top{position:absolute;top:calc(92px + env(safe-area-inset-top,0px));left:var(--gut);right:var(--gut)}
+  .hero-ink{clip-path:circle(0% at 50% 23%)}
+  .hero-fallback{right:50%;top:30%;transform:translate(50%,-50%);width:46vw}
+}
+
+/* ---------- section scaffolding ---------- */
+section{position:relative}
+.sec{padding-block:clamp(80px,12vw,180px)}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+.h2{font-size:clamp(2.6rem,7vw,7rem);letter-spacing:-.05em;line-height:.9}
+.split-head{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:end;margin-bottom:clamp(48px,7vw,96px)}
+.split-head p{max-width:46ch}
+@media (max-width:900px){.split-head{grid-template-columns:1fr}}
+
+/* manifesto */
+.manifesto p.big{font:700 clamp(1.8rem,4.4vw,4.4rem)/1.08 var(--f-display);letter-spacing:-.035em;max-width:22ch}
+.manifesto .w{opacity:.18;transition:none}
+.manifesto-foot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:clamp(64px,9vw,120px);border-top:1px solid var(--line-ink);padding-top:28px}
+.stat b{display:block;font:800 clamp(2.6rem,5.6vw,5.6rem)/1 var(--f-display);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+@media (max-width:700px){.manifesto-foot{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line-ink);padding-block:26px;overflow:hidden}
+.mq-row{display:flex;width:max-content;gap:0;will-change:transform}
+.mq-row+.mq-row{margin-top:10px}
+.mq-item{display:flex;align-items:center;gap:28px;padding-right:28px;font:700 clamp(2rem,4.6vw,4.4rem)/1.1 var(--f-display);letter-spacing:-.04em;white-space:nowrap}
+.mq-item img{height:.7em;width:auto;opacity:.9}
+.mq-row.alt .mq-item{color:transparent;-webkit-text-stroke:1px var(--on-ink-mute)}
+
+/* services stack */
+.svc-stack{display:grid;gap:0}
+.svc{position:sticky;top:calc(96px + var(--i)*14px);background:var(--paper);border-top:1px solid var(--line-paper);padding-block:34px;min-height:min(62vh,560px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) minmax(0,.8fr);gap:32px;transform-origin:50% 0}
+.svc h3{font-size:clamp(2rem,4.2vw,4.2rem)}
+.svc .tags{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.chip{display:inline-block;border:1px solid currentColor;border-radius:99px;padding:5px 12px;font-size:13px;opacity:.85}
+.svc .desc{font-size:clamp(16px,1.35vw,20px);max-width:40ch}
+.svc .link{margin-top:24px;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid currentColor;padding-bottom:2px}
+.svc-art{border-radius:14px;overflow:hidden;align-self:start}
+@media (max-width:900px){.svc{grid-template-columns:1fr;min-height:0;gap:18px;position:relative;top:auto}.svc-art{display:none}}
+
+/* covers (generated art per case) */
+.cover{position:relative;background:var(--tone);color:#fff;border-radius:14px;overflow:hidden;aspect-ratio:4/3;isolation:isolate}
+.cover svg{position:absolute;inset:0;width:100%;height:100%}
+.cover .cv-name{position:absolute;left:6%;bottom:7%;right:6%;font:800 clamp(1.4rem,3.2vw,3rem)/.92 var(--f-display);letter-spacing:-.045em;text-wrap:balance;z-index:2}
+.cover .cv-tag{position:absolute;left:6%;top:7%;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:5px 10px;z-index:2}
+.cover::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 85% 0%,rgba(255,255,255,.18),transparent 55%),linear-gradient(to top,rgba(0,0,0,.35),transparent 50%);z-index:1;pointer-events:none}
+
+/* featured horizontal */
+.feat{overflow:hidden}
+.feat-head{padding-top:clamp(80px,8vw,110px);padding-bottom:32px}
+.hz{display:flex;gap:clamp(16px,2vw,32px);padding-inline:var(--gut);padding-bottom:clamp(60px,8vw,120px);width:max-content}
+.hz .card{width:min(56vw,820px,calc((100vh - 400px) * 1.6));flex:none}
+.feat .h2{font-size:clamp(2.4rem,5.4vw,5.4rem)}
+.card .cover{aspect-ratio:16/10;transition:transform .8s var(--ease)}
+.card:hover .cover{transform:scale(.985)}
+.card .meta{display:flex;justify-content:space-between;gap:20px;margin-top:16px;align-items:baseline}
+.card h3{font-size:clamp(1.3rem,2vw,2rem);letter-spacing:-.03em;font-weight:700;line-height:1.1}
+@media (max-width:900px){.hz{flex-direction:column;width:auto}.hz .card{width:100%}}
+
+/* work index */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+.filters button{border:1px solid var(--line-ink);border-radius:99px;padding:10px 16px;font-size:14px;display:inline-flex;gap:8px;align-items:center;transition:background .3s,color .3s,border-color .3s}
+.filters button sup{font:500 10px var(--f-mono);opacity:.7}
+.filters button[aria-pressed="true"]{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
+.idx{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-ink)}
+.idx li{border-bottom:1px solid var(--line-ink)}
+.idx a{display:grid;grid-template-columns:56px minmax(0,1.2fr) minmax(0,1.5fr) minmax(0,.7fr) 32px;gap:20px;align-items:center;padding-block:22px;position:relative;transition:padding .5s var(--ease)}
+.idx a::before{content:"";position:absolute;inset:0 calc(var(--gut)*-1);background:var(--on-ink);transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease);z-index:-1}
+.idx li{position:relative;z-index:0}
+.idx a:hover{color:var(--ink);padding-inline:14px}
+.idx a:hover::before{transform:scaleY(1);transform-origin:top}
+.idx .n{font:500 12px var(--f-mono);opacity:.6;font-variant-numeric:tabular-nums}
+.idx .cl{font:700 clamp(1.4rem,2.6vw,2.4rem)/1 var(--f-display);letter-spacing:-.035em}
+.idx .tt{opacity:.75;font-size:15px}
+.idx .dc{font:500 12px var(--f-mono);text-transform:uppercase;letter-spacing:.06em}
+.idx .ar{font-size:22px;transition:transform .4s var(--ease)}
+.idx a:hover .ar{transform:rotate(-45deg)}
+.idx .st{font:500 10px var(--f-mono);border:1px solid currentColor;border-radius:99px;padding:2px 7px;margin-left:8px;vertical-align:middle;letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:900px){.idx a{grid-template-columns:36px minmax(0,1fr) 24px;row-gap:6px}.idx .tt{grid-column:2/3}.idx .dc{grid-column:2/3}.idx .ar{grid-row:1;grid-column:3}}
+.peek{position:fixed;left:0;top:0;width:340px;z-index:50;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.8);transition:opacity .3s,transform .4s var(--ease)}
+.peek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media (hover:none){.peek{display:none}}
+
+/* products */
+.prod-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line-paper);border:1px solid var(--line-paper);border-radius:16px;overflow:hidden}
+.prod{background:var(--paper);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:14px;min-height:320px;position:relative;transform-style:preserve-3d;transition:background .4s}
+.prod:hover{background:var(--paper-2)}
+.prod h3{font-size:clamp(1.6rem,2.4vw,2.3rem)}
+.prod .tag{align-self:flex-start}
+.prod ul{list-style:none;padding:0;margin:auto 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.prod li{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;background:var(--on-paper);color:var(--paper);border-radius:6px;padding:5px 8px}
+@media (max-width:1000px){.prod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.prod-grid{grid-template-columns:1fr}}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid var(--line-ink)}
+.proc li{list-style:none;padding:28px 22px 28px 0;border-right:1px solid var(--line-ink);min-height:300px;display:flex;flex-direction:column;gap:14px}
+.proc li+li{padding-left:22px}
+.proc li:last-child{border-right:0}
+.proc .k{font:500 12px var(--f-mono)}
+.proc h3{font-size:clamp(1.5rem,2.2vw,2.2rem);margin-top:auto}
+.proc ol{padding:0;margin:0}
+@media (max-width:1000px){.proc{grid-template-columns:1fr}.proc li,.proc li+li{border-right:0;border-bottom:1px solid var(--line-ink);min-height:0;padding:24px 0}.proc h3{margin-top:0}}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.price{border:1px solid var(--line-paper);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;min-height:260px}
+.price .amt{font:800 clamp(1.7rem,2.6vw,2.5rem)/1 var(--f-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin-top:auto}
+.price.dark{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+@media (max-width:1000px){.price-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.price-grid{grid-template-columns:1fr}}
+
+/* contact */
+.contact h2{font-size:clamp(3rem,11vw,12rem);letter-spacing:-.06em;line-height:.85}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);margin-top:clamp(48px,7vw,100px)}
+.c-rows{display:grid;gap:0;border-top:1px solid var(--line-ink)}
+.c-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px;border-bottom:1px solid var(--line-ink);flex-wrap:wrap}
+.c-row .v{font:600 clamp(1.1rem,1.8vw,1.6rem)/1.2 var(--f-display);letter-spacing:-.02em;user-select:all;overflow-wrap:anywhere}
+.copy{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line-ink);border-radius:99px;padding:6px 12px}
+form.brief{display:grid;gap:14px}
+.fld{display:grid;gap:6px}
+.fld>label{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--on-ink-mute)}
+.fld input,.fld select,.fld textarea{background:transparent;border:0;border-bottom:1px solid var(--line-ink);color:var(--on-ink);font:inherit;font-size:17px;padding:10px 0;border-radius:0;width:100%}
+.fld select option{background:var(--ink)}
+.fld textarea{min-height:90px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-bottom-color:var(--on-ink)}
+.svc-pick{display:flex;flex-wrap:wrap;gap:8px}
+.svc-pick label{cursor:pointer}
+.svc-pick input{position:absolute;opacity:0;pointer-events:none}
+.svc-pick span{display:inline-block;border:1px solid var(--line-ink);border-radius:99px;padding:8px 14px;font-size:14px;transition:all .25s}
+.svc-pick input:checked+span{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
+.svc-pick input:focus-visible+span{outline:2px solid var(--on-ink);outline-offset:2px}
+.sent{border:1px solid var(--line-ink);border-radius:14px;padding:20px;display:grid;gap:12px}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+/* footer */
+footer{padding-top:60px;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px));overflow:hidden}
+.foot-top{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:40px}
+.foot-top ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.foot-mark{width:100%;padding-block:20px}
+.foot-mark img{width:100%;height:auto}
+.foot-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line-ink);padding-top:18px}
+
+/* ---------- case study overlay ---------- */
+#cs{position:fixed;inset:0;z-index:80;background:var(--paper);color:var(--on-paper);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.cs-bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:calc(16px + env(safe-area-inset-top,0px)) 16px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line-paper)}
+.cs-bar img{height:22px}
+.cs-back{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--on-paper);border-radius:99px;padding:8px 16px;font-size:14px}
+.cs-back:hover{background:var(--on-paper);color:var(--paper)}
+.cs-hero{padding-top:clamp(40px,7vw,100px)}
+.cs-hero .crumbs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.cs-hero h1{font-size:clamp(2.4rem,6.6vw,6.8rem);letter-spacing:-.05em;max-width:17ch;line-height:.92}
+.cs-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;border-top:1px solid var(--line-paper);margin-top:clamp(32px,5vw,64px);padding-top:22px}
+.cs-meta dt{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--on-paper-mute);margin-bottom:6px}
+.cs-meta dd{margin:0;font-weight:500;overflow-wrap:anywhere}
+.cs-meta a{border-bottom:1px solid currentColor}
+@media (max-width:800px){.cs-meta{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cs-cover{margin-top:clamp(32px,5vw,64px)}
+.cs-cover .cover{aspect-ratio:21/9;border-radius:18px}
+.cs-cover .cover .cv-name{font-size:clamp(2rem,7vw,7rem)}
+@media (max-width:700px){.cs-cover .cover{aspect-ratio:4/3}}
+.cs-sec{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(24px,5vw,80px);padding-block:clamp(48px,7vw,100px);border-bottom:1px solid var(--line-paper)}
+.cs-sec h2{font-size:clamp(1.6rem,2.6vw,2.6rem)}
+.cs-sec .body{font-size:clamp(17px,1.5vw,22px);line-height:1.5;max-width:60ch}
+.cs-sec .body p+p{margin-top:1em}
+@media (max-width:800px){.cs-sec{grid-template-columns:1fr}}
+.moves{display:grid;gap:0;border-top:1px solid var(--line-paper)}
+.move{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:24px;padding-block:22px;border-bottom:1px solid var(--line-paper)}
+.move h3{font-size:clamp(1.2rem,1.7vw,1.6rem);letter-spacing:-.02em;font-weight:700;line-height:1.15}
+.move p{font-size:16px;color:var(--on-paper-mute)}
+@media (max-width:600px){.move{grid-template-columns:1fr;gap:8px}}
+.deliv{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.deliv li{padding:14px 0 14px 30px;border-bottom:1px solid var(--line-paper);position:relative;font-size:16px}
+.deliv li::before{content:"";position:absolute;left:2px;top:21px;width:10px;height:10px;background:var(--on-paper);border-radius:2px;transform:rotate(45deg)}
+@media (max-width:600px){.deliv{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding-block:clamp(40px,5vw,72px)}
+.fact{background:var(--ink);color:var(--on-ink);border-radius:14px;padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.fact b{font:800 clamp(1.3rem,2.1vw,2rem)/1.05 var(--f-display);letter-spacing:-.03em;overflow-wrap:anywhere}
+.fact.res{background:var(--paper-2);color:var(--on-paper)}
+.fact.res b{font-size:clamp(2.2rem,4vw,3.6rem)}
+@media (max-width:800px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.more{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.more a{border:1px solid var(--on-paper);border-radius:99px;padding:8px 14px;font-size:14px}
+.more a:hover{background:var(--on-paper);color:var(--paper)}
+.cs-next{display:block;background:var(--ink);color:var(--on-ink);padding-block:clamp(60px,9vw,140px);margin-top:clamp(40px,6vw,80px)}
+.cs-next .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:40px;align-items:center}
+.cs-next h2{font-size:clamp(2.4rem,6vw,6rem);letter-spacing:-.05em}
+.cs-next .cover{transition:transform .8s var(--ease)}
+.cs-next:hover .cover{transform:scale(1.02) rotate(-1deg)}
+@media (max-width:800px){.cs-next .row{grid-template-columns:1fr}}
+.curtain{position:fixed;inset:0;z-index:95;background:var(--ink);transform:translateY(100%);pointer-events:none;display:grid;place-items:center}
+.curtain img{width:90px;opacity:.9}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<!-- ============ INTRO FILM ============ -->
+<div id="intro" aria-label="StudioAdsPro intro">
+  <video id="introVid" poster="assets/og.jpg" muted playsinline autoplay preload="auto"><source src="assets/logo-intro.webm" type="video/webm"><source src="assets/logo-intro.mp4" type="video/mp4"></video>
+  <div class="bar mono"><span id="introPct">000</span><span class="track"><span class="fill" id="introFill"></span></span><button class="skip mono" id="skipIntro">Skip intro</button></div>
+</div>
+
+<div class="cur" id="cur" aria-hidden="true"><div class="ring"></div><div class="dot"></div><div class="lbl">View</div></div>
+<div class="peek" id="peek" aria-hidden="true"></div>
+<div class="curtain" id="curtain" aria-hidden="true"><img src="assets/icon-white.png" alt=""></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" data-scroll aria-label="StudioAdsPro home"><img src="assets/icon-white.png" alt=""><img class="wm" src="assets/wordmark-white.png" alt="studio ads pro"></a>
+    <ul>
+      <li><a href="#work" data-scroll>Work</a></li>
+      <li><a href="#services" data-scroll>Services</a></li>
+      <li><a href="#products" data-scroll>Products</a></li>
+      <li><a href="#process" data-scroll>Process</a></li>
+    </ul>
+    <a class="cta" href="#contact" data-scroll>DM us to grow</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
+  </div>
+</header>
+<nav class="sheet" id="sheet" aria-label="Menu">
+  <button class="close" id="menuClose">Close</button>
+  <div>
+    <a class="big" href="#work" data-scroll>Work</a>
+    <a class="big" href="#services" data-scroll>Services</a>
+    <a class="big" href="#products" data-scroll>Products</a>
+    <a class="big" href="#process" data-scroll>Process</a>
+    <a class="big" href="#contact" data-scroll>Contact</a>
+  </div>
+  <p class="mono mute">+91 91517 81802 · growwithus@studioadspro.com</p>
+</nav>
+
+<main id="top">
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-stick">
+    <img class="hero-fallback" src="assets/icon-black.png" alt="">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="hero-copy wrap" id="heroCopy">
+      <div class="hero-top mono">
+        <span>AI, Web &amp; Performance Marketing Agency</span>
+        <span class="mute">Greater Noida · Delhi NCR · Est. 2026</span>
+      </div>
+      <div>
+        <h1 aria-label="we build it. we shoot it. we automate it. we grow it.">
+          <span class="ln"><span>we build it.</span></span>
+          <span class="ln"><span>we shoot it.</span></span>
+          <span class="ln"><span>we automate it.</span></span>
+          <span class="ln"><span>we <span class="pill"><span>grow</span></span> it.</span></span>
+        </h1>
+        <div class="hero-bottom" style="margin-top:28px">
+          <div>
+            <p class="hero-lede">Websites, apps, CRMs, Meta Ads and social media for brands across India. This is the full portfolio: every build, campaign and account we run, with a case study for each.</p>
+            <div class="btns">
+              <a class="btn solid" href="#work" data-scroll data-mag>See the work <span aria-hidden="true">↘</span></a>
+              <a class="btn ghost" href="#contact" data-scroll data-mag>Start a project</a>
+            </div>
+          </div>
+          <div class="hero-meta">
+            <div><b>25+</b><span class="mono mute">Projects</span></div>
+            <div><b>20+</b><span class="mono mute">Clients</span></div>
+            <div><b id="caseCount">34</b><span class="mono mute">Case studies</span></div>
+            <div class="scroll-hint mono mute"><i></i>Scroll</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-ink" id="heroInk">
+      <div>
+        <div class="badge"><img src="assets/icon-black.png" alt=""></div>
+        <h2>Here’s what we’ve built, shot, automated and grown.</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="sec manifesto on-ink" id="about">
+  <div class="wrap">
+    <div class="eyebrow mono mute">The studio</div>
+    <p class="big" id="manifesto">One team for the whole growth stack. We design and code the website, build the app and the CRM behind it, shoot and edit the content, and run the Meta Ads that bring the customers in. About 36 people across development, design, video and marketing, working from Greater Noida for brands across India.</p>
+    <div class="manifesto-foot">
+      <div class="stat"><b data-count="25" data-suffix="+">25+</b><span class="mono mute">Projects delivered</span></div>
+      <div class="stat"><b data-count="20" data-suffix="+">20+</b><span class="mono mute">Happy clients</span></div>
+      <div class="stat"><b data-count="99" data-suffix="%">99%</b><span class="mono mute">Satisfaction rate</span></div>
+      <div class="stat"><b>24/7</b><span class="mono mute">Support</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENT MARQUEE ============ -->
+<section class="marquee" aria-label="Clients">
+  <div class="mq-row" id="mq1"></div>
+  <div class="mq-row alt" id="mq2"></div>
+</section>
+
+<!-- ============ FEATURED (horizontal) ============ -->
+<section class="feat on-ink" id="featured">
+  <div class="wrap feat-head split-head" style="margin-bottom:0">
+    <div>
+      <div class="eyebrow mono mute">Selected work</div>
+      <h2 class="h2">Six projects, <br>four disciplines.</h2>
+    </div>
+    <p class="mute">A slice of the portfolio across Meta Ads, websites, apps and social media. Every project opens into a one-page case study.</p>
+  </div>
+  <div class="hz" id="hz"></div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="sec paper" id="services">
+  <div class="wrap">
+    <div class="split-head">
+      <div>
+        <div class="eyebrow mono mute">Services</div>
+        <h2 class="h2">Everything a brand needs to grow online.</h2>
+      </div>
+      <p class="mute">Each service links to the case studies behind it.</p>
+    </div>
+    <div class="svc-stack" id="svcStack"></div>
+  </div>
+</section>
+
+<!-- ============ WORK INDEX ============ -->
+<section class="sec on-ink" id="work">
+  <div class="wrap">
+    <div class="split-head">
+      <div>
+        <div class="eyebrow mono mute">Full index</div>
+        <h2 class="h2">All the work.</h2>
+      </div>
+      <p class="mute">Filter by discipline. Every row opens a one-page case study with the brief, our approach and what we delivered.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter case studies" id="filters"></div>
+    <ul class="idx" id="idx"></ul>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="sec paper" id="products">
+  <div class="wrap">
+    <div class="split-head">
+      <div>
+        <div class="eyebrow mono mute">Ready-built software</div>
+        <h2 class="h2">Products you can launch this month.</h2>
+      </div>
+      <p class="mute">Software we built for ourselves and our clients, packaged so your business can go live in weeks instead of months. Each one is customised to your brand and workflow.</p>
+    </div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="sec on-ink" id="process">
+  <div class="wrap">
+    <div class="split-head">
+      <div>
+        <div class="eyebrow mono mute">Process</div>
+        <h2 class="h2">From first call to first customer.</h2>
+      </div>
+      <p class="mute">The same five steps whether we are building an app or launching an ad account.</p>
+    </div>
+    <ol class="proc">
+      <li><span class="k mute">01 · Day 1–3</span><h3>Discover</h3><p class="mute">Audit of your business, competitors, current site, ad account and funnel.</p></li>
+      <li><span class="k mute">02 · Week 1</span><h3>Plan</h3><p class="mute">Scope, sitemap or campaign structure, timeline and a fixed quote.</p></li>
+      <li><span class="k mute">03 · Week 1–6</span><h3>Build &amp; shoot</h3><p class="mute">Design, development, content and creatives, shared for review every week.</p></li>
+      <li><span class="k mute">04 · Launch</span><h3>Launch</h3><p class="mute">Go live with tracking, pixels and analytics in place from day one.</p></li>
+      <li><span class="k mute">05 · Ongoing</span><h3>Grow</h3><p class="mute">Optimise ads, ship updates and report on leads, sales and cost.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="sec contact on-ink" id="contact">
+  <div class="wrap">
+    <div class="eyebrow mono mute">Contact</div>
+    <div class="contact-grid">
+      <div>
+        <div class="c-rows">
+          <div class="c-row"><div><div class="mono mute">WhatsApp / Call</div><div class="v">+91 91517 81802</div></div><button class="copy" data-copy="+919151781802">Copy</button></div>
+          <div class="c-row"><div><div class="mono mute">Email</div><div class="v">growwithus@studioadspro.com</div></div><button class="copy" data-copy="growwithus@studioadspro.com">Copy</button></div>
+          <div class="c-row"><div><div class="mono mute">Web</div><div class="v"><a href="https://studioadspro.com" target="_blank" rel="noopener">studioadspro.com ↗</a></div></div></div>
+          <div class="c-row"><div><div class="mono mute">Studio</div><div class="v">Greater Noida, Delhi NCR</div></div></div>
+        </div>
+        <div class="btns">
+          <a class="btn solid" data-mag href="https://wa.me/919151781802" target="_blank" rel="noopener">Chat on WhatsApp ↗</a>
+          <a class="btn ghost" data-mag href="https://instagram.com/studioadspro" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </div>
+      <form class="brief" id="brief" novalidate>
+        <div class="fld"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="fld"><label for="f-biz">Business / website</label><input id="f-biz" name="biz"></div>
+        <div class="fld"><label>What do you need?</label>
+          <div class="svc-pick" id="svcPick">
+            <label><input type="checkbox" id="p-web" value="Website"><span>Website</span></label>
+            <label><input type="checkbox" id="p-app" value="App / Software"><span>App / Software</span></label>
+            <label><input type="checkbox" id="p-ads" value="Meta Ads"><span>Meta Ads</span></label>
+            <label><input type="checkbox" id="p-soc" value="Social Media"><span>Social Media</span></label>
+            <label><input type="checkbox" id="p-vid" value="Video"><span>Video</span></label>
+            <label><input type="checkbox" id="p-ai" value="AI Agents"><span>AI Agents</span></label>
+          </div>
+        </div>
+        <div class="fld"><label for="f-msg">Tell us about the project</label><textarea id="f-msg" name="msg"></textarea></div>
+        <div><button class="btn solid" type="submit" data-mag style="background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)">Prepare WhatsApp message →</button></div>
+        <div class="sent" id="sent" hidden>
+          <p>Your brief is ready. Tap below to send it to us on WhatsApp.</p>
+          <a class="btn solid" id="sendWa" href="#" target="_blank" rel="noopener" style="background:var(--on-ink);color:var(--ink);border-color:var(--on-ink);justify-self:start">Open WhatsApp ↗</a>
+        </div>
+        <p class="mute" id="formErr" hidden>Add your name so we know who to reply to.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="on-ink">
+  <div class="wrap">
+    <div class="foot-top">
+      <p style="max-width:34ch" class="mute">StudioAdsPro is an AI, web and performance marketing agency. We build it. We shoot it. We automate it. We grow it.</p>
+      <ul><li class="mono mute">Explore</li><li><a href="#work" data-scroll>Work</a></li><li><a href="#services" data-scroll>Services</a></li><li><a href="#products" data-scroll>Products</a></li></ul>
+      <ul><li class="mono mute">Social</li><li><a href="https://instagram.com/studioadspro" target="_blank" rel="noopener">Instagram ↗</a></li><li><a href="https://x.com/StudioAdsPro5" target="_blank" rel="noopener">X / Twitter ↗</a></li><li><a href="https://studioadspro.com" target="_blank" rel="noopener">studioadspro.com ↗</a></li></ul>
+      <ul><li class="mono mute">Film</li><li><button id="replayIntro" style="text-decoration:underline">Replay the logo film</button></li></ul>
+    </div>
+    <div class="foot-mark"><img src="assets/wordmark-white.png" alt="studio ads pro"></div>
+    <div class="foot-bot mono mute"><span>© 2026 StudioAdsPro</span><span>Greater Noida, India</span><a href="#top" data-scroll>Back to top ↑</a></div>
+  </div>
+</footer>
+</main>
+
+<!-- ============ CASE STUDY OVERLAY ============ -->
+<div id="cs" hidden role="dialog" aria-modal="true" aria-labelledby="csTitle"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* =====================================================================
+   STUDIOADSPRO — PORTFOLIO DATA
+   Every case study on the site is generated from this file.
+   To add verified numbers to a case study, fill its `results` array:
+     results: [["3.2x","ROAS"], ["₹180","Cost per lead"], ["1,240","Leads"]]
+   The Results band only appears when `results` has entries.
+   ===================================================================== */
+
+const CLIENTS = {
+  nari18: { name: "Nari18", url: "https://nari18.com", industry: "Ethnic fashion · D2C", location: "Gurugram, Haryana", tone: "#5E1A33",
+    about: "A premium label for handcrafted unstitched suit sets: 125+ designs in silk, Chanderi, organza, cotton, georgette, muslin, linen and kota doria, with optional custom tailoring arranged over WhatsApp and a boutique in Gurugram." },
+  bubbles: { name: "Bubbles & Skins", url: "https://bubblesandskins.com", industry: "Ayurvedic skincare · D2C", location: "India", tone: "#2C5A4C",
+    about: "An Ayurveda-inspired skin and hair care brand built on natural, vegan and cruelty-free formulations: the Shuddhi foaming capsule cleanser, Neem Tulsi acne toner, Ubtan de-tan cleanser and Ayukesh hair oil." },
+  arogya: { name: "Arogya Bio", url: "https://arogyabio.com", industry: "Ayurvedic wellness · E-commerce", location: "India", tone: "#2C4720",
+    about: "An online store for traditional Ayurvedic wellness products: Ashwagandha, Brahmi and Turmeric supplements and a dedicated gout-care range of oils and capsules." },
+  propertylelo: { name: "PropertyLelo", url: "https://propertylelo.com", industry: "Real estate marketplace", location: "Pan-India · Delhi NCR focus", tone: "#1E3866",
+    about: "A zero-brokerage marketplace to buy and sell residential, commercial and plot properties, with verified listings, instant site visits and home-loan assistance across Indian metros." },
+  nikunj: { name: "Nikunj Heritage", url: "https://nikunjheritage.com", industry: "Real estate", location: "Uttar Pradesh", tone: "#56391F",
+    about: "A heritage-themed residential real estate brand selling homes to families and investors who want traditional character with modern amenities." },
+  srm: { name: "SRM Dry Cleaners", url: "https://srmdrycleaners.com", industry: "Laundry & fabric care", location: "Noida & Noida Extension", tone: "#2D5016",
+    about: "Premium dry cleaning, organic laundry, steam pressing, shoe laundry and sofa, carpet and curtain cleaning with free doorstep pickup. Outlets at Mahagun Mart (Sector 78), Mywoods Gaur City and Paramount City Square." },
+  samrajya: { name: "Samrajya Ayodhyaa", url: "https://samrajyaayodhyaa.com", industry: "Real estate · Hospitality", location: "VIP Road, Ayodhya", tone: "#7E3F0E",
+    about: "Fully furnished studio apartments, serviced residences and retail spaces on VIP Road, about 500 m from Ram Mandir, with temple-inspired architecture, Vastu-led planning and an AYUSH wellness centre." },
+  dxn: { name: "DXN Orion", url: "https://dxn-orion.com", industry: "Luxury residential", location: "Sector 22D, Yamuna Expressway", tone: "#262A3A",
+    about: "Spacious, low-density 3 and 4 BHK luxury residences on the Yamuna Expressway in Greater Noida, close to the upcoming Noida International Airport at Jewar." },
+  tirthnow: { name: "TirthNow", url: "https://tirthnow.com", industry: "Pilgrimage travel tech", location: "India", tone: "#6E2410",
+    about: "A yatra and tirth booking startup that plans pilgrimages end to end: packages, darshan, stays and travel, on Android, iOS and the web." },
+  abhiyantri: { name: "Abhiyantri Setu", url: "https://abhiyantrisetu.com", industry: "Construction tech · Home services", location: "Greater Noida", tone: "#5C4206",
+    about: "A construction-tech and home-services marketplace linking homeowners and developers with verified contractors, engineers, architects, material suppliers and equipment rentals." },
+  velmo: { name: "Velmo Elevators", url: "https://velmoelevators.com", industry: "Elevator manufacturing", location: "Delhi NCR", tone: "#173650",
+    about: "An elevator manufacturing brand for residential and commercial buildings in NCR, covering home lifts, passenger elevators, installation and maintenance." },
+  girija: { name: "Girija Devi Child Welfare Trust", url: "https://girijadevichildwelfaretrust.com", industry: "Non-profit · Child welfare", location: "India", tone: "#2F5560",
+    about: "A charitable trust working for the education, health and welfare of underprivileged children." },
+  omjyoti: { name: "Om Jyoti Engineering", url: "https://omjyotiengineering.com", industry: "Industrial equipment", location: "India", tone: "#0E4757",
+    about: "A supplier of water pumps and industrial equipment selling to contractors, factories and institutional buyers through a telecalling and field-sales team." },
+  noidadrive: { name: "NoidaDrive", url: "", industry: "Mobility", location: "Noida", tone: "#2A2A2A",
+    about: "A local mobility app for Noida that lets riders book drives and lets the operator manage drivers, trips and payments." },
+  sap: { name: "SAP CRM", url: "", industry: "SaaS · StudioAdsPro product", location: "In-house", tone: "#141414",
+    about: "StudioAdsPro's own CRM, built first for the agency's ad-generated leads and now offered to clients as a ready-to-deploy product." },
+  balancesync: { name: "BalanceSync Pro", url: "", industry: "SaaS · Finance tool", location: "Android & Windows", tone: "#22304A",
+    about: "A balance and ledger tracking tool for small businesses that keeps a mobile app and a Windows desktop app in sync." },
+  vanliferavi: { name: "Vanlife Ravi", url: "", industry: "Creator · Travel", location: "On the road, India", tone: "#47552A",
+    about: "A van-life travel creator documenting life on the road across India." },
+  ritashi: { name: "Ritashi Jewellers", url: "", industry: "Jewellery retail", location: "India", tone: "#5E4818",
+    about: "A jewellery house selling gold, diamond and bridal collections to local and online customers." },
+  fastrack: { name: "Fastrack Autocare", url: "", industry: "Automotive service", location: "Delhi NCR", tone: "#7A1C1C",
+    about: "A car service and detailing workshop offering periodic servicing, repairs, detailing and coating." }
+};
+
+const DISCIPLINES = {
+  ads: { label: "Performance Marketing", short: "Meta Ads" },
+  web: { label: "Website", short: "Website" },
+  app: { label: "Apps & Custom Software", short: "App / Software" },
+  social: { label: "Social Media", short: "Social" }
+};
+
+const CASES = [
+  /* ---------------------------- META ADS ---------------------------- */
+  { id: "nari18-ads", c: "nari18", d: "ads",
+    title: "Turning handcrafted suits into a scroll-stopping catalogue.",
+    services: ["Meta Ads", "Catalogue ads", "Creative"], stack: ["Facebook", "Instagram", "WhatsApp"],
+    challenge: "Unstitched suits sell on fabric, colour and drape, which are hard to show in a single static ad. With 125+ designs, Nari18 needed ads that matched the right design to the right shopper and moved buyers to checkout or a WhatsApp tailoring chat.",
+    approach: [
+      ["Catalogue structure", "Grouped the range by fabric (silk, Chanderi, organza, cotton) and occasion so each ad set could promote a coherent edit instead of the whole catalogue."],
+      ["Video-first creative", "Close-up fabric reels and drape videos, edited in-house, for Reels and Stories placements; carousels for prospecting by collection."],
+      ["Two conversion paths", "Website purchase for ready decisions and click-to-WhatsApp for shoppers who want custom tailoring advice before ordering."]
+    ],
+    delivered: ["Account and pixel audit", "Fabric- and occasion-wise campaign structure", "Reels, carousel and catalogue creatives", "Retargeting of product viewers and cart abandoners", "Free-shipping threshold (₹5,000) used as an offer hook", "Weekly reporting"],
+    facts: [["Objective", "Sales"], ["Catalogue", "125+ designs"], ["Placements", "Reels · Feed · Stories"], ["Path", "Website + WhatsApp"]],
+    results: [] },
+
+  { id: "bubbles-ads", c: "bubbles", d: "ads",
+    title: "Selling Ayurvedic skincare by skin concern, not by product.",
+    services: ["Meta Ads", "Creative strategy"], stack: ["Facebook", "Instagram", "Meta Pixel"],
+    challenge: "Skincare buyers search by problem: acne, tan, dullness, hair fall. Bubbles & Skins had strong natural formulations but needed ads that spoke to each concern and built trust in an ingredient-led, vegan brand.",
+    approach: [
+      ["Concern-led ad sets", "Separate campaigns for acne (Neem Tulsi toner), tan removal (Ubtan cleanser), hair care (Ayukesh oil) and the travel-friendly Shuddhi capsule cleanser."],
+      ["Ingredient storytelling", "Creatives that open on the ingredient, show the texture and end on the routine, which suits a 100% natural, cruelty-free positioning."],
+      ["Retention loop", "Retargeting of video viewers and past buyers with routine bundles to raise order value."]
+    ],
+    delivered: ["Funnel plan from awareness to purchase", "Concern-based audiences and creatives", "UGC-style and studio product videos", "Pixel and conversion event setup", "Bundle and offer testing", "Weekly optimisation"],
+    facts: [["Objective", "Sales"], ["Hero products", "4 ranges"], ["Positioning", "Vegan · Natural"], ["Placements", "Reels · Feed"]],
+    results: [] },
+
+  { id: "arogya-ads", c: "arogya", d: "ads",
+    title: "COD-ready lead engine for an Ayurvedic gout-care combo.",
+    services: ["Meta Ads", "Landing page", "Funnel"], stack: ["Facebook", "Instagram", "Custom landing page", "Arogya CRM"],
+    challenge: "Arogya Bio's gout-care combo (oil plus capsules) targets an older, value-conscious audience that prefers Hindi content and cash on delivery. Generic e-commerce ads were sending traffic to pages that did not answer their questions.",
+    approach: [
+      ["Dedicated landing page", "Built a bilingual Hindi and English landing page with pricing (₹1,999, down from ₹2,499), ingredients, FAQs, a 30-day guarantee and a COD order form."],
+      ["Audience by age and intent", "Campaigns aimed at adults 35+ and their children buying for parents, with pain-relief messaging in Hindi."],
+      ["Closed loop to CRM", "Orders flow into Arogya CRM so telecallers confirm COD orders quickly and cut fake or cancelled orders."]
+    ],
+    delivered: ["Gouthealth landing page with order backend", "Hindi-first ad creatives", "Lead-form and website-order campaigns", "Order confirmation flow into CRM", "Retargeting of page visitors", "Daily spend monitoring"],
+    facts: [["Objective", "COD orders"], ["Offer", "₹1,999 combo"], ["Language", "Hindi + English"], ["Guarantee", "30 days"]],
+    results: [] },
+
+  { id: "propertylelo-ads", c: "propertylelo", d: "ads",
+    title: "Buyer and seller leads for a zero-brokerage marketplace.",
+    services: ["Meta Ads", "Lead generation"], stack: ["Facebook", "Instagram", "Lead forms", "WhatsApp"],
+    challenge: "A two-sided marketplace has to win both sides: sellers who list and buyers who enquire. PropertyLelo needed lead campaigns for each side, city by city, without paying for low-intent form fills.",
+    approach: [
+      ["Two funnels", "Owner-listing campaigns with a 'sell without brokerage' message and buyer campaigns built around verified listings and instant site visits."],
+      ["City-level structure", "Ad sets split by metro, starting with Delhi NCR, so budgets follow the cities that convert."],
+      ["Qualified forms", "Lead forms with budget, property type and timeline questions to filter casual browsers."]
+    ],
+    delivered: ["Seller and buyer campaign architecture", "City-wise targeting", "Higher-intent lead forms", "Static and video creatives", "Lead routing to WhatsApp and CRM", "Weekly lead-quality review"],
+    facts: [["Objective", "Leads"], ["Sides", "Buyers + Sellers"], ["Model", "Zero brokerage"], ["Start market", "Delhi NCR"]],
+    results: [] },
+
+  { id: "nikunj-ads", c: "nikunj", d: "ads",
+    title: "Site-visit bookings for a heritage residential project.",
+    services: ["Meta Ads", "Lead generation"], stack: ["Facebook", "Instagram", "Lead forms", "Website"],
+    challenge: "Real estate leads are expensive and often unqualified. Nikunj Heritage needed enquiries from serious home buyers who would actually visit the site, not just download a brochure.",
+    approach: [
+      ["Story-led creative", "Walkthrough videos and lifestyle stills that sell the heritage character of the project alongside its amenities."],
+      ["Qualifying questions", "Lead forms asking budget, configuration and purchase timeline before submission."],
+      ["Fast follow-up", "Leads pushed instantly to the sales team over WhatsApp so callbacks happen within minutes."]
+    ],
+    delivered: ["Campaign and audience setup", "Walkthrough and project creatives", "Qualified lead forms", "Website lead tracking", "Site-visit retargeting", "Weekly reports"],
+    facts: [["Objective", "Site visits"], ["Category", "Residential"], ["Lead path", "Form → WhatsApp"], ["Channels", "FB + IG"]],
+    results: [] },
+
+  { id: "srm-ads", c: "srm", d: "ads",
+    title: "Hyperlocal Reels that fill pickup slots across Noida.",
+    services: ["Meta Ads", "Video ads", "Local marketing"], stack: ["Instagram Reels", "Facebook", "Call ads"],
+    challenge: "Dry cleaning is a local, habit-driven purchase. SRM needed people near its three outlets to try the service once, then come back, with booking as easy as a call or a DM.",
+    approach: [
+      ["30-second Hindi Reel", "A 3 × 10-second vertical ad: the 'kapdon ka problem' hook, a service showcase (curtains, carpets, sofas, blankets) and an offer close with the jingle 'Kapdon ki Safai, Hamari Zimmedari!'."],
+      ["Radius targeting", "Tight radius campaigns around Sector 78, Gaur City and Noida Extension housing societies."],
+      ["Triple CTA", "Call to book, follow on Instagram, or visit the website, with the FRESH20 code for 20% off the first order."]
+    ],
+    delivered: ["Reel script, voice-over and edit", "Radius campaigns around 3 outlets", "Call and message objectives", "FRESH20 offer tracking", "Instagram growth ads", "Monthly creative refresh"],
+    facts: [["Objective", "Calls + DMs"], ["Outlets", "3"], ["Offer", "FRESH20 · 20% off"], ["Format", "9:16 Reels"]],
+    results: [] },
+
+  { id: "samrajya-ads", c: "samrajya", d: "ads",
+    title: "Investor leads for studio apartments 500 m from Ram Mandir.",
+    services: ["Meta Ads", "Lead generation", "Lead qualification"], stack: ["Facebook", "Instagram", "Lead forms", "WhatsApp"],
+    challenge: "Samrajya Ayodhyaa sells studio apartments from ₹65 lakh to buyers who mostly live far from Ayodhya. The campaign had to find investors in other states and qualify them for a small team handling every follow-up.",
+    approach: [
+      ["Find the buyer cities", "Started Pan-India across metros, then narrowed to the markets with the best enquiries: Delhi NCR and Gujarat (Ahmedabad and Surat)."],
+      ["Spiritual-investment message", "Creatives combining proximity to Ram Mandir, temple-inspired design and Ayodhya's growth as a pilgrimage capital."],
+      ["Lean follow-up", "Higher-intent forms and WhatsApp-first contact so one person could follow up every lead."]
+    ],
+    delivered: ["Pan-India test and geo narrowing", "Budget scaled to ₹1,500/day", "Investor-focused creatives", "Qualified lead forms", "WhatsApp follow-up scripts", "Weekly lead review"],
+    facts: [["Ticket size", "From ₹65 L"], ["Daily budget", "₹1,500"], ["Markets", "NCR · Gujarat"], ["Distance", "~500 m to Ram Mandir"]],
+    results: [] },
+
+  { id: "dxn-ads", c: "dxn", d: "ads",
+    title: "Pre-launch registrations for luxury homes near Jewar Airport.",
+    services: ["Meta Ads", "Pre-launch campaign"], stack: ["Facebook", "Instagram", "Website", "Lead forms"],
+    challenge: "DXN Orion is a low-density 3 and 4 BHK project in a pre-launch phase. The goal was a list of high-income buyers and investors registered before prices and floor plans go public.",
+    approach: [
+      ["Affluent targeting", "Audiences built around senior professionals, business owners and NRI investors interested in Yamuna Expressway and airport-led growth."],
+      ["Exclusive-access offer", "Ads offering early price lists and floor plans in exchange for pre-launch registration."],
+      ["Website conversion", "Traffic sent to the project site with tracked registration forms and retargeting of visitors."]
+    ],
+    delivered: ["Pre-launch campaign plan", "Luxury-positioned creatives", "Registration funnel on dxn-orion.com", "Pixel and event tracking", "Visitor retargeting", "Weekly reporting"],
+    facts: [["Objective", "Registrations"], ["Configuration", "3 & 4 BHK"], ["Location", "Sector 22D"], ["Phase", "Pre-launch"]],
+    results: [] },
+
+  { id: "tirthnow-ads", c: "tirthnow", d: "ads",
+    title: "Filling yatra departures with app installs and enquiries.",
+    services: ["Meta Ads", "App install ads", "Lead generation"], stack: ["Facebook", "Instagram", "App campaigns", "WhatsApp"],
+    challenge: "Pilgrimage travel is seasonal and decided by families. TirthNow needed bookings for specific yatras while also growing installs of its new Android and iOS apps.",
+    approach: [
+      ["Yatra-wise campaigns", "Separate campaigns per destination and season so creative and budget follow demand."],
+      ["Family audience", "Targeting devotees and adult children planning trips for their parents, with Hindi-first creative."],
+      ["Two goals", "App-install campaigns for long-term reach and WhatsApp enquiry campaigns for immediate bookings."]
+    ],
+    delivered: ["Seasonal campaign calendar", "Destination-wise creatives", "App install campaigns (Android + iOS)", "Click-to-WhatsApp enquiry ads", "Retargeting of app and site visitors", "Monthly reporting"],
+    facts: [["Objective", "Installs + enquiries"], ["Platforms", "Android · iOS · Web"], ["Language", "Hindi + English"], ["Planning", "Seasonal"]],
+    results: [] },
+
+  /* ---------------------------- WEBSITES ---------------------------- */
+  { id: "arogya-web", c: "arogya", d: "web",
+    title: "An Ayurvedic store that loads fast and sells in two languages.",
+    services: ["E-commerce website", "Landing pages", "SEO"], stack: ["HTML/CSS/JS", "Node.js", "Express", "Payment + COD"],
+    challenge: "Arogya Bio's buyers arrive from ads on mobile, often on slow connections, and many prefer Hindi. The store had to load quickly, explain each product clearly and accept cash on delivery.",
+    approach: [
+      ["Product-first store", "Category pages for supplements and gout care, with ingredient and usage details on every product."],
+      ["High-converting landing pages", "A 14-section Gouthealth page with urgency banner, pricing, ingredients, FAQ and a floating order button."],
+      ["Order backend", "An Express API with validated order forms, admin endpoints and security hardening."]
+    ],
+    delivered: ["Store design and build", "Gouthealth landing page", "Bilingual content", "COD order form and backend", "Mobile-first performance tuning", "Deployment and handover"],
+    facts: [["Load target", "< 2 s"], ["Language", "Hindi + English"], ["Payments", "Online + COD"], ["Sections", "14+ on landing"]],
+    results: [] },
+
+  { id: "abhiyantri-web", c: "abhiyantri", d: "web",
+    title: "One front door for construction, repairs and materials.",
+    services: ["Marketplace website", "UI/UX", "Backend"], stack: ["Next.js", "React", "Tailwind", "Node.js"],
+    challenge: "Abhiyantri Setu covers construction projects, home services, materials, equipment rental and professional consultations. The website had to make 100+ services easy to find and turn visitors into requests.",
+    approach: [
+      ["Service architecture", "Five clear verticals (Construction, Home Services, Materials, Equipment, Consultation) with search across every service."],
+      ["Trust signals", "Verified-professional badges, transparent process steps and digital contracts explained up front."],
+      ["Lead capture", "Request forms and an AI cost-estimation entry point feed straight into the operations team."]
+    ],
+    delivered: ["Information architecture", "Marketplace UI design", "Next.js build", "Service request flows", "AI cost-estimator entry point", "SEO setup"],
+    facts: [["Verticals", "5"], ["Services", "100+"], ["Region", "Greater Noida"], ["Stack", "Next.js"]],
+    results: [] },
+
+  { id: "srm-web", c: "srm", d: "web",
+    title: "Book a pickup in under a minute.",
+    services: ["Business website", "Local SEO"], stack: ["React", "Tailwind", "WhatsApp API", "Google Business"],
+    challenge: "Most SRM customers decide in a moment: they have clothes to clean and want them picked up. The site needed to show services and prices clearly and make booking a pickup immediate.",
+    approach: [
+      ["Service menu", "Dry cleaning, organic laundry, steam press, shoe laundry and home furnishings (sofa, carpet, curtains) on one page."],
+      ["One-tap booking", "Call and WhatsApp buttons on every screen and a short pickup form."],
+      ["Local SEO", "Outlet pages and schema for Sector 78, Gaur City and Noida Extension."]
+    ],
+    delivered: ["Brand-aligned design", "Service and pricing pages", "Pickup booking form", "Click-to-call and WhatsApp", "Local SEO for 3 outlets", "Analytics setup"],
+    facts: [["Outlets", "3"], ["Pickup", "Free, doorstep"], ["Booking", "Call · WhatsApp · Form"], ["Focus", "Local SEO"]],
+    results: [] },
+
+  { id: "nikunj-web", c: "nikunj", d: "web",
+    title: "A project website that sells the heritage, then the floor plan.",
+    services: ["Real estate website", "Lead capture"], stack: ["Next.js", "Tailwind", "Lead forms"],
+    challenge: "Buyers compare many projects online before visiting any. Nikunj Heritage needed a site that sets a mood quickly and turns interest into a brochure request or site-visit booking.",
+    approach: [
+      ["Mood first", "A full-bleed visual hero and story section on the heritage concept."],
+      ["Decision content", "Amenities, location advantages, configurations and floor plans in scannable blocks."],
+      ["Gated brochure", "Brochure and price-list downloads behind a short form that feeds the sales team."]
+    ],
+    delivered: ["Visual design", "Responsive build", "Brochure and price-list gating", "Site-visit booking form", "Ad landing pages", "Pixel and analytics"],
+    facts: [["Type", "Project site"], ["Lead tools", "Brochure · Visit"], ["Ads-ready", "Yes"], ["Stack", "Next.js"]],
+    results: [] },
+
+  { id: "samrajya-web", c: "samrajya", d: "web",
+    title: "A spiritual address, presented like a premium hotel.",
+    services: ["Real estate website", "Content", "Lead capture"], stack: ["React", "Tailwind", "Lead forms", "WhatsApp"],
+    challenge: "Samrajya Ayodhyaa mixes residence, hospitality and retail. The site had to explain three products, the location advantage near Ram Mandir and the investment case to buyers who may never have visited Ayodhya.",
+    approach: [
+      ["Location story", "Distance to Ram Mandir (~500 m), the airport road and city centre shown up front."],
+      ["Three products", "Separate sections for studio apartments, serviced residences and retail spaces."],
+      ["Amenities and wellness", "Yoga, meditation, pool, gym and an AYUSH wellness centre presented with Vastu-led design notes."]
+    ],
+    delivered: ["Site design and build", "Investment and location content", "Enquiry and WhatsApp capture", "Landing pages for Meta Ads", "Mobile performance tuning", "Analytics"],
+    facts: [["Location", "VIP Road, Ayodhya"], ["Products", "3"], ["Starting price", "₹65 L"], ["Lead path", "Form + WhatsApp"]],
+    results: [] },
+
+  { id: "dxn-web", c: "dxn", d: "web",
+    title: "Quiet luxury, low density, one clear call to register.",
+    services: ["Real estate website", "Pre-launch funnel"], stack: ["Next.js", "Tailwind", "Maps", "Lead forms"],
+    challenge: "A pre-launch site has little to show except a promise. DXN Orion's site had to convey luxury and location value while collecting registrations for price lists and floor plans.",
+    approach: [
+      ["Restrained design", "Generous white space, large imagery and minimal copy to match a low-density luxury product."],
+      ["Location map", "Yamuna Expressway connectivity and Jewar Airport proximity shown on an interactive map."],
+      ["Registration funnel", "Price list and floor plans offered in exchange for a pre-launch registration."]
+    ],
+    delivered: ["Visual identity for web", "Responsive build", "Location map", "Pre-launch registration flow", "Ad landing variants", "Tracking setup"],
+    facts: [["Phase", "Pre-launch"], ["Homes", "3 & 4 BHK"], ["Sector", "22D, YEIDA"], ["Goal", "Registrations"]],
+    results: [] },
+
+  { id: "propertylelo-web", c: "propertylelo", d: "web",
+    title: "Search, verify, visit: a marketplace without the broker.",
+    services: ["Marketplace platform", "UI/UX", "Backend"], stack: ["Next.js", "Node.js", "PostgreSQL", "Maps"],
+    challenge: "Property portals are crowded and buyers distrust listings. PropertyLelo needed fast search, visible verification and a direct line between owner and buyer.",
+    approach: [
+      ["Search that works", "Filters by city, locality, type, budget and configuration, with map and list views."],
+      ["Verification", "Verified badges and listing checks surfaced on every card."],
+      ["Direct contact", "Site-visit booking and owner contact without a broker in between, plus home-loan assistance."]
+    ],
+    delivered: ["Marketplace UX", "Listing and search pages", "Owner listing flow", "Site-visit scheduling", "Admin moderation panel", "SEO for city pages"],
+    facts: [["Model", "Zero brokerage"], ["Listing types", "Residential · Commercial · Plots"], ["Search", "Map + list"], ["Stack", "Next.js"]],
+    results: [] },
+
+  { id: "velmo-web", c: "velmo", d: "web",
+    title: "A 3D elevator shaft you scroll through.",
+    services: ["3D website", "Brand web design", "Backend"], stack: ["Next.js", "Three.js", "Framer Motion", "Firebase"],
+    challenge: "Elevators are bought on engineering trust. Velmo needed a site that feels as precise as its product and collects enquiries for installation and maintenance.",
+    approach: [
+      ["3D hero", "A scroll-driven 3D elevator shaft that moves the visitor floor by floor through the product story."],
+      ["Product showcase", "Home lifts and passenger elevators in a 3D carousel with specs and finishes."],
+      ["Enquiry and service", "Enquiry forms, maintenance requests and an admin dashboard on Firebase."]
+    ],
+    delivered: ["3D web design", "Next.js + Three.js build", "Product carousel", "Enquiry and maintenance forms", "Admin dashboard", "Performance tuning"],
+    facts: [["Hero", "3D shaft"], ["Backend", "Firebase"], ["Market", "Delhi NCR"], ["Motion", "Framer Motion"]],
+    results: [] },
+
+  { id: "tirthnow-web", c: "tirthnow", d: "web",
+    title: "Plan a pilgrimage the way families actually plan.",
+    services: ["Travel website", "Booking flow"], stack: ["Next.js", "Node.js", "Payments", "CMS"],
+    challenge: "Pilgrimage packages involve dates, darshan, stays, transport and elderly travellers. The site had to make complex itineraries clear and bookable.",
+    approach: [
+      ["Yatra pages", "One page per yatra with day-wise itinerary, inclusions and departure dates."],
+      ["Simple booking", "A short booking flow with traveller details and online payment, plus WhatsApp help at every step."],
+      ["Shared backend", "The website uses the same backend as the TirthNow apps so bookings sync everywhere."]
+    ],
+    delivered: ["Website design and build", "Yatra itinerary templates", "Booking and payment flow", "CMS for packages", "Shared API with apps", "SEO for destinations"],
+    facts: [["Channels", "Web + apps"], ["Booking", "Online + WhatsApp"], ["Content", "CMS-driven"], ["Stack", "Next.js"]],
+    results: [] },
+
+  { id: "girija-web", c: "girija", d: "web",
+    title: "A trust website that makes giving simple and transparent.",
+    services: ["NGO website", "Donations"], stack: ["React", "Tailwind", "Payment gateway"],
+    challenge: "Donors want to know where their money goes. The trust needed a credible website that explains its programmes and makes donating and volunteering straightforward.",
+    approach: [
+      ["Clear mission", "Programmes for education, health and child welfare explained with photos and plain language."],
+      ["Easy donations", "An online donation flow with suggested amounts and receipts."],
+      ["Trust details", "Registration details, team and contact information on the page so donors can verify the trust."]
+    ],
+    delivered: ["Website design and build", "Programme pages", "Donation flow", "Volunteer form", "Gallery", "Basic SEO"],
+    facts: [["Sector", "Non-profit"], ["Focus", "Children"], ["Donations", "Online"], ["Stack", "React"]],
+    results: [] },
+
+  { id: "omjyoti-web", c: "omjyoti", d: "web",
+    title: "An industrial catalogue that generates RFQs.",
+    services: ["Corporate website", "Product catalogue"], stack: ["React", "Node.js", "Om Jyoti CRM"],
+    challenge: "Industrial buyers want specs, models and a quick way to ask for a quote. Om Jyoti's website had to list pumps and equipment clearly and push enquiries straight into the sales team's CRM.",
+    approach: [
+      ["Spec-led catalogue", "Product categories with model specs and applications."],
+      ["Quote requests", "An RFQ form on every product page."],
+      ["CRM integration", "Website enquiries land in Om Jyoti CRM as new leads assigned to telecallers."]
+    ],
+    delivered: ["Corporate site design", "Product catalogue", "RFQ forms", "CRM lead integration", "Mobile build", "SEO"],
+    facts: [["Products", "Pumps & equipment"], ["Lead path", "RFQ → CRM"], ["Buyers", "B2B"], ["Stack", "React + Node"]],
+    results: [] },
+
+  /* ------------------------ APPS & SOFTWARE ------------------------ */
+  { id: "tirthnow-app", c: "tirthnow", d: "app",
+    title: "Yatra booking in your pocket, on Android and iOS.",
+    services: ["Mobile app", "Backend", "Admin panel"], stack: ["Flutter", "Node.js", "Firebase", "Payments"],
+    challenge: "Pilgrims, often travelling with elderly parents, need their bookings, itinerary and contacts on their phone during the trip. TirthNow needed apps on both platforms built in-house.",
+    approach: [
+      ["One codebase", "Android and iOS built from a single Flutter codebase for faster releases."],
+      ["Trip companion", "Day-wise itinerary, booking documents and support contacts available during the yatra."],
+      ["Operations panel", "An admin panel to manage packages, departures and bookings."]
+    ],
+    delivered: ["Android app", "iOS app", "Booking and payments", "Itinerary and notifications", "Admin panel", "Store listings"],
+    facts: [["Platforms", "Android · iOS"], ["Codebase", "Single (Flutter)"], ["Built", "In-house"], ["Panel", "Admin"]],
+    results: [] },
+
+  { id: "abhiyantri-app", c: "abhiyantri", d: "app",
+    title: "Hire, track and pay for construction work from one app.",
+    services: ["Mobile apps", "Marketplace backend"], stack: ["Flutter", "Node.js", "PostgreSQL", "AI estimation"],
+    challenge: "Construction work runs on calls, paper quotes and trust. Abhiyantri Setu needed apps for customers and service providers that bring quotations, contracts and progress tracking into one place.",
+    approach: [
+      ["Customer app", "Book services, compare quotations, get an AI cost estimate and track project progress in real time."],
+      ["Provider side", "Verified professionals receive leads, send quotes and update job status."],
+      ["Digital paperwork", "Digital contracts and BOQ documents attached to each project."]
+    ],
+    delivered: ["Android app", "iOS app", "Provider onboarding and verification", "Quotation comparison", "AI cost estimator", "Project tracking"],
+    facts: [["Platforms", "Android · iOS"], ["Sides", "Customer + Provider"], ["AI", "Cost estimation"], ["Docs", "Contracts · BOQ"]],
+    results: [] },
+
+  { id: "noidadrive-app", c: "noidadrive", d: "app",
+    title: "Local rides, booked and managed in one place.",
+    services: ["Mobile app", "Driver app", "Admin panel"], stack: ["Flutter", "Node.js", "Maps API", "Payments"],
+    challenge: "A local mobility service needs booking, live location and driver management working reliably together. NoidaDrive needed a rider app, driver tools and an operator dashboard.",
+    approach: [
+      ["Rider booking", "Pickup and drop selection on a map, fare estimate and booking confirmation."],
+      ["Driver tools", "Trip requests, navigation hand-off and trip status updates."],
+      ["Operator dashboard", "Live trips, driver management and payments in one admin panel."]
+    ],
+    delivered: ["Rider app", "Driver app", "Maps and live tracking", "Payments", "Admin dashboard", "Notifications"],
+    facts: [["City", "Noida"], ["Apps", "Rider + Driver"], ["Tracking", "Live"], ["Panel", "Admin"]],
+    results: [] },
+
+  { id: "propertylelo-app", c: "propertylelo", d: "app", status: "In development",
+    title: "PropertyLelo, rebuilt as a native app.",
+    services: ["Mobile app", "API"], stack: ["React Native", "Node.js", "PostgreSQL", "Maps"],
+    challenge: "Most property searches start on a phone. PropertyLelo's app brings search, saved properties, alerts and site-visit booking to Android and iOS, on the same backend as the website.",
+    approach: [
+      ["Shared API", "The app uses the marketplace backend so listings and leads stay in sync with the web."],
+      ["Mobile features", "Saved searches, new-listing alerts, map search and one-tap owner contact."],
+      ["Owner tools", "List a property from the phone with photos, location and pricing."]
+    ],
+    delivered: ["App UX and design", "React Native build (in progress)", "Map search", "Alerts and saved searches", "Owner listing flow", "Release planning"],
+    facts: [["Status", "In development"], ["Platforms", "Android · iOS"], ["Backend", "Shared with web"], ["Stack", "React Native"]],
+    results: [] },
+
+  { id: "arogya-crm", c: "arogya", d: "app",
+    title: "A CRM that confirms COD orders before they ship.",
+    services: ["Custom CRM", "Integrations"], stack: ["React", "Node.js", "PostgreSQL", "WhatsApp"],
+    challenge: "Ad-driven COD orders bring cancellations and wrong addresses. Arogya Bio needed a system that captures every order and lead, assigns it to a caller and tracks it until delivery.",
+    approach: [
+      ["Order and lead inbox", "Orders from the website, landing pages and Meta lead forms land in one queue."],
+      ["Telecaller workflow", "Auto-assignment, call outcomes, follow-up reminders and WhatsApp templates."],
+      ["Dispatch and reports", "Order status through dispatch and delivery, with conversion reports by campaign."]
+    ],
+    delivered: ["CRM web app", "Lead and order capture", "Telecaller workflow", "WhatsApp templates", "Status tracking", "Reports"],
+    facts: [["Users", "Admin · Callers"], ["Sources", "Web · Meta"], ["Messaging", "WhatsApp"], ["Stack", "React + Node"]],
+    results: [] },
+
+  { id: "omjyoti-crm", c: "omjyoti", d: "app",
+    title: "Leads, teams and inventory for an industrial supplier.",
+    services: ["Custom CRM", "Role-based access"], stack: ["React", "Node.js", "PostgreSQL", "Redis"],
+    challenge: "Om Jyoti's sales ran on spreadsheets: imported lead lists, calls logged by hand and stock checked by phone. They needed one system for leads, people and inventory.",
+    approach: [
+      ["Full lead lifecycle", "Excel/CSV import, assignment, call logs, follow-ups and conversion tracking."],
+      ["Six roles", "Super Admin, Admin, Team Lead, Telecaller, Manager and Data Entry Operator, each with its own permissions."],
+      ["Inventory", "Stock tracking linked to leads and orders, with analytics and reports."]
+    ],
+    delivered: ["System specification", "9 page designs, 15+ components", "80+ REST endpoints", "12+ table database", "Role-based access control", "Analytics and reports"],
+    facts: [["Roles", "6"], ["API endpoints", "80+"], ["Tables", "12+"], ["Timeline", "4–6 weeks"]],
+    results: [] },
+
+  { id: "sap-crm", c: "sap", d: "app",
+    title: "Our own CRM, built for leads that come from ads.",
+    services: ["SaaS product", "CRM"], stack: ["React", "Node.js", "PostgreSQL", "Meta Lead Ads API", "WhatsApp"],
+    challenge: "Running Meta Ads for many clients meant leads scattered across forms, sheets and phones. We built SAP CRM to capture every lead automatically and get it called fast.",
+    approach: [
+      ["Auto-capture", "Meta lead forms, website forms and WhatsApp enquiries sync into one pipeline."],
+      ["Speed to lead", "Instant assignment, alerts and WhatsApp templates so the first call happens in minutes."],
+      ["Multi-business", "Separate workspaces per client, so the same product serves real estate, D2C and services."]
+    ],
+    delivered: ["Lead pipeline", "Meta and web integrations", "WhatsApp messaging", "Team roles", "Campaign-wise reports", "White-label deployment"],
+    facts: [["Type", "Product"], ["Sources", "Meta · Web · WhatsApp"], ["Deploy", "White-label"], ["Users", "Agency + clients"]],
+    results: [] },
+
+  { id: "balancesync-app", c: "balancesync", d: "app",
+    title: "Balances that match on the phone and the PC.",
+    services: ["Mobile app", "Windows app", "Sync engine"], stack: ["Flutter", "Windows desktop", "Cloud sync", "SQLite"],
+    challenge: "Small businesses keep accounts on a shop PC but need them on the move too. BalanceSync Pro keeps ledgers and balances in sync between Android and Windows, even with patchy internet.",
+    approach: [
+      ["Offline first", "Every entry is saved locally and synced when a connection is available."],
+      ["Two apps, one ledger", "A mobile app for quick entries and a Windows app for detailed bookkeeping."],
+      ["Reports", "Party-wise balances, statements and exports."]
+    ],
+    delivered: ["Android app", "Windows desktop app", "Sync engine", "Ledger and party management", "Reports and exports", "Backup"],
+    facts: [["Platforms", "Android · Windows"], ["Mode", "Offline-first"], ["Sync", "Cloud"], ["Type", "Product"]],
+    results: [] },
+
+  /* -------------------------- SOCIAL MEDIA -------------------------- */
+  { id: "arogya-social", c: "arogya", d: "social",
+    title: "Ayurveda explained in 30 seconds.",
+    services: ["Social media management", "Content", "Reels"], stack: ["Instagram", "Facebook", "YouTube Shorts"],
+    challenge: "Ayurvedic products need education before people buy. Arogya Bio's social pages had to explain herbs and routines simply and build trust with an audience that also sees its ads.",
+    approach: [
+      ["Content pillars", "Herb explainers (Ashwagandha, Brahmi, Turmeric), wellness tips, product how-tos and customer stories."],
+      ["Hindi-first Reels", "Short vertical videos that match the language used in the ads."],
+      ["Community", "Replies to comments and DMs that route buying questions to the sales team."]
+    ],
+    delivered: ["Monthly content calendar", "Reels, carousels and posts", "Captions and hashtags", "Community management", "Ad-ready creatives", "Monthly report"],
+    facts: [["Channels", "IG · FB · Shorts"], ["Language", "Hindi + English"], ["Format", "Reels-led"], ["Cadence", "Monthly calendar"]],
+    results: [] },
+
+  { id: "propertylelo-social", c: "propertylelo", d: "social",
+    title: "Property content people actually save.",
+    services: ["Social media management", "Content"], stack: ["Instagram", "Facebook", "LinkedIn"],
+    challenge: "Property pages tend to post listings and little else. PropertyLelo needed content that builds trust in a no-broker model and gives buyers a reason to follow.",
+    approach: [
+      ["Useful content", "Buying guides, document checklists, locality explainers and home-loan tips."],
+      ["Listings with context", "Featured verified properties presented with locality and price context."],
+      ["Brand story", "Posts explaining how zero brokerage works, to build trust with owners and buyers."]
+    ],
+    delivered: ["Content strategy", "Carousels and Reels", "Featured listing posts", "LinkedIn presence", "Community management", "Monthly report"],
+    facts: [["Channels", "IG · FB · LinkedIn"], ["Pillars", "Guides · Listings · Brand"], ["Audience", "Buyers + Owners"], ["Format", "Carousels + Reels"]],
+    results: [] },
+
+  { id: "nari18-social", c: "nari18", d: "social",
+    title: "4–5 edited fashion films a month, every month.",
+    services: ["Social media", "Video editing", "Content"], stack: ["Instagram", "Facebook", "Premiere Pro"],
+    challenge: "Fashion feeds need a steady supply of polished video. Nari18 shoots its own footage and needed a partner to turn it into finished, on-brand content on a reliable schedule.",
+    approach: [
+      ["Monthly retainer", "4–5 fully edited videos per month: cutting, colour grading, audio mastering, motion graphics and text."],
+      ["Every format", "Exports for Reels, Stories and feed (vertical, square and landscape)."],
+      ["Fast turnaround", "First drafts in 3–5 days and finals in 2–3 days, with two revision rounds per video."]
+    ],
+    delivered: ["4–5 edited videos per month", "Colour grading and audio mastering", "Motion graphics and text", "Multi-format exports", "2 revision rounds per video", "Posting support"],
+    facts: [["Videos", "4–5 / month"], ["Draft", "3–5 days"], ["Revisions", "2 per video"], ["Formats", "9:16 · 1:1 · 16:9"]],
+    results: [] },
+
+  { id: "vanliferavi-social", c: "vanliferavi", d: "social",
+    title: "Life on the road, edited for the algorithm.",
+    services: ["Creator management", "Video editing", "Growth"], stack: ["Instagram", "YouTube", "YouTube Shorts"],
+    challenge: "A travel creator's best moments happen far from an editing desk. Vanlife Ravi needed someone to turn raw road footage into consistent posts while he keeps driving.",
+    approach: [
+      ["Edit pipeline", "Raw clips sent from the road are cut into Reels, Shorts and long-form episodes."],
+      ["Hooks and captions", "Strong opening seconds, subtitles and searchable titles for every upload."],
+      ["Posting rhythm", "A posting calendar that keeps the channel active between trips."]
+    ],
+    delivered: ["Reels and Shorts editing", "Long-form YouTube edits", "Thumbnails", "Captions and titles", "Posting calendar", "Brand collaboration decks"],
+    facts: [["Channels", "IG · YouTube"], ["Formats", "Shorts + long-form"], ["Workflow", "Remote"], ["Niche", "Van life"]],
+    results: [] },
+
+  { id: "ritashi-social", c: "ritashi", d: "social",
+    title: "Jewellery that sparkles on a phone screen.",
+    services: ["Social media management", "Product shoots", "Reels"], stack: ["Instagram", "Facebook", "WhatsApp"],
+    challenge: "Jewellery is hard to photograph and harder to sell online. Ritashi Jewellers needed content that shows detail and craft and brings customers into the store or onto WhatsApp.",
+    approach: [
+      ["Macro product content", "Close-up shoots and Reels that show stone, finish and how pieces look when worn."],
+      ["Occasion calendar", "Content planned around weddings, Akshaya Tritiya, Dhanteras and Diwali."],
+      ["Enquiry path", "Every post points to WhatsApp or a store visit for pricing."]
+    ],
+    delivered: ["Product shoots", "Reels and carousels", "Festive campaign creatives", "Captions and hashtags", "Community management", "Monthly report"],
+    facts: [["Channels", "IG · FB"], ["Content", "Macro product + Reels"], ["Calendar", "Festive & bridal"], ["Lead path", "WhatsApp"]],
+    results: [] },
+
+  { id: "fastrack-social", c: "fastrack", d: "social",
+    title: "Before-and-after content that books car services.",
+    services: ["Social media management", "Video content"], stack: ["Instagram", "Facebook", "Google Business"],
+    challenge: "Car owners choose a workshop on trust. Fastrack Autocare needed to show its work and turn followers into bookings.",
+    approach: [
+      ["Show the work", "Before-and-after Reels of detailing, coating and repairs shot in the workshop."],
+      ["Car-care tips", "Short tips on servicing intervals, tyres and monsoon care that people share."],
+      ["Booking prompts", "Service offers with call and WhatsApp booking on every post."]
+    ],
+    delivered: ["Workshop video shoots", "Before/after Reels", "Tips carousels", "Offer creatives", "Google Business posts", "Monthly report"],
+    facts: [["Channels", "IG · FB · Google"], ["Format", "Before / after"], ["Lead path", "Call + WhatsApp"], ["Niche", "Auto service"]],
+    results: [] }
+];
+
+/* Ready-to-deploy products. Edit freely. */
+const PRODUCTS = [
+  { name: "SAP CRM", tag: "Flagship", text: "Lead CRM built for ad-generated leads. Meta lead forms, website and WhatsApp in one pipeline, with auto-assignment and campaign reports.", pts: ["Meta Lead Ads sync", "WhatsApp templates", "White-label"] },
+  { name: "BalanceSync Pro", tag: "Android + Windows", text: "Offline-first ledger and balance tracking that stays in sync between a phone and a shop PC.", pts: ["Offline-first", "Party ledgers", "Cloud backup"] },
+  { name: "Industry CRM kit", tag: "From Om Jyoti & Arogya", text: "A configurable CRM with lead lifecycle, telecaller workflow, roles and inventory, adapted to your business in weeks.", pts: ["6 role types", "Excel import", "Inventory"] },
+  { name: "Service marketplace kit", tag: "From Abhiyantri Setu", text: "Customer and provider apps with verification, quotations, project tracking and an admin panel.", pts: ["Android + iOS", "Quotations", "Admin panel"] },
+  { name: "Booking app kit", tag: "From TirthNow", text: "Packages, departures, bookings and payments across web, Android and iOS for travel and experience businesses.", pts: ["Web + apps", "Payments", "Itineraries"] },
+  { name: "D2C landing + COD kit", tag: "From Gouthealth", text: "A fast, bilingual landing page with COD order form and order backend, ready for Meta Ads traffic.", pts: ["< 2 s load", "COD orders", "Hindi + English"] }
+];
+
+const LOGO3D = {"w": 327, "h": 317, "outer": [[263, 47], [257, 44], [255, 42], [253, 42], [250, 40], [248, 40], [244, 38], [234, 37], [233, 36], [214, 36], [213, 37], [204, 37], [203, 38], [195, 38], [194, 39], [186, 39], [185, 40], [176, 40], [175, 41], [166, 41], [165, 42], [157, 42], [156, 43], [147, 43], [146, 44], [137, 44], [136, 45], [128, 45], [127, 46], [119, 46], [118, 47], [109, 47], [108, 48], [100, 48], [99, 49], [90, 49], [89, 50], [80, 50], [79, 51], [62, 52], [61, 53], [51, 54], [50, 55], [47, 55], [46, 56], [38, 58], [25, 65], [21, 69], [20, 69], [14, 76], [7, 89], [7, 92], [6, 93], [5, 100], [4, 101], [4, 130], [5, 131], [5, 138], [6, 139], [6, 148], [7, 149], [7, 158], [8, 159], [8, 168], [9, 169], [9, 177], [10, 178], [11, 196], [12, 197], [12, 203], [13, 204], [14, 212], [15, 213], [17, 221], [24, 234], [32, 243], [39, 248], [50, 253], [58, 254], [59, 255], [65, 255], [66, 256], [82, 256], [83, 255], [91, 255], [92, 256], [91, 258], [90, 268], [89, 269], [89, 273], [88, 274], [88, 279], [87, 280], [86, 289], [85, 290], [85, 294], [84, 295], [84, 300], [83, 301], [83, 305], [82, 306], [82, 310], [81, 312], [143, 249], [159, 248], [160, 247], [168, 247], [169, 246], [178, 246], [179, 245], [187, 245], [188, 244], [197, 244], [198, 243], [206, 243], [207, 242], [216, 242], [217, 241], [225, 241], [226, 240], [235, 240], [236, 239], [246, 238], [247, 237], [250, 237], [251, 236], [259, 234], [269, 229], [276, 224], [284, 215], [289, 206], [289, 204], [292, 197], [292, 193], [293, 192], [293, 184], [294, 183], [294, 171], [293, 170], [293, 160], [292, 159], [291, 140], [290, 139], [290, 131], [289, 130], [289, 122], [288, 121], [287, 102], [286, 101], [286, 94], [285, 93], [284, 83], [283, 82], [283, 79], [282, 78], [280, 70], [272, 56]], "holes": [[[199, 187], [201, 192], [208, 199], [213, 201], [216, 201], [217, 202], [211, 205], [206, 210], [202, 220], [199, 214], [194, 209], [184, 205], [190, 202], [195, 197]], [[66, 111], [72, 111], [75, 113], [77, 116], [78, 121], [75, 127], [57, 150], [54, 155], [54, 157], [74, 175], [75, 175], [84, 184], [85, 186], [85, 190], [83, 194], [79, 197], [73, 197], [71, 196], [39, 167], [38, 167], [33, 162], [33, 160], [32, 159], [32, 155], [34, 151], [55, 124], [60, 116]], [[98, 109], [102, 109], [114, 115], [116, 117], [135, 126], [137, 128], [154, 136], [156, 138], [159, 139], [162, 143], [162, 147], [157, 153], [156, 153], [149, 160], [148, 160], [142, 166], [130, 175], [113, 190], [107, 193], [101, 190], [99, 186], [99, 178], [98, 177], [97, 158], [96, 157], [95, 139], [94, 138], [94, 129], [93, 128], [93, 120], [92, 119], [92, 115], [93, 113]], [[237, 74], [241, 77], [244, 85], [244, 88], [247, 96], [248, 103], [252, 114], [251, 120], [247, 124], [245, 125], [241, 125], [235, 121], [233, 116], [232, 110], [231, 110], [211, 151], [209, 153], [209, 155], [193, 187], [191, 189], [191, 191], [189, 194], [185, 197], [178, 197], [173, 191], [173, 185], [179, 173], [181, 171], [181, 169], [183, 167], [183, 165], [185, 163], [189, 155], [189, 153], [197, 137], [199, 135], [199, 133], [201, 131], [219, 95], [219, 94], [218, 95], [214, 95], [213, 96], [209, 96], [208, 97], [198, 98], [194, 96], [191, 92], [191, 86], [192, 84], [197, 80], [206, 79], [207, 78], [211, 78], [212, 77], [216, 77], [217, 76], [221, 76], [222, 75], [227, 75], [228, 74], [232, 74], [233, 73]]], "sparks": [[[322, 41], [319, 39], [315, 41], [312, 41], [301, 45], [298, 45], [296, 47], [296, 51], [300, 53], [304, 51], [307, 51], [308, 50], [311, 50], [315, 48], [321, 47], [322, 46]], [[295, 5], [291, 6], [273, 24], [273, 28], [274, 29], [278, 30], [285, 23], [286, 23], [293, 15], [295, 14], [298, 9]], [[262, 4], [262, 11], [264, 13], [267, 13], [269, 11], [270, 4]]]};
+</script>
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const FINE = matchMedia("(hover:hover) and (pointer:fine)").matches;
+const hasG = !!window.gsap;
+if (hasG && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const byId = Object.fromEntries(CASES.map(c => [c.id, c]));
+$("#caseCount").textContent = CASES.length;
+
+/* ---------------- cover art (one per case, encodes the discipline) ---------------- */
+function coverSVG(d) {
+  const s = 'stroke="rgba(255,255,255,.55)" stroke-width="1.6" fill="none"';
+  const f = 'fill="rgba(255,255,255,.12)"';
+  if (d === "web") return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect x="150" y="34" width="290" height="220" rx="12" ${s}/><line x1="150" y1="62" x2="440" y2="62" ${s}/>
+    <circle cx="168" cy="48" r="4" fill="rgba(255,255,255,.6)"/><circle cx="182" cy="48" r="4" fill="rgba(255,255,255,.4)"/><circle cx="196" cy="48" r="4" fill="rgba(255,255,255,.25)"/>
+    <rect x="172" y="84" width="150" height="14" rx="3" ${f}/><rect x="172" y="106" width="110" height="14" rx="3" ${f}/>
+    <rect x="172" y="134" width="64" height="20" rx="10" fill="rgba(255,255,255,.7)"/>
+    <rect x="300" y="84" width="120" height="96" rx="8" ${f}/><rect x="172" y="196" width="76" height="40" rx="6" ${f}/><rect x="256" y="196" width="76" height="40" rx="6" ${f}/><rect x="340" y="196" width="80" height="40" rx="6" ${f}/></svg>`;
+  if (d === "app") return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g transform="rotate(-8 270 150)"><rect x="200" y="30" width="118" height="236" rx="22" ${s}/><rect x="243" y="40" width="32" height="7" rx="3.5" fill="rgba(255,255,255,.4)"/>
+    <rect x="214" y="62" width="90" height="56" rx="8" ${f}/><rect x="214" y="128" width="90" height="12" rx="3" ${f}/><rect x="214" y="148" width="60" height="12" rx="3" ${f}/><rect x="214" y="222" width="90" height="26" rx="13" fill="rgba(255,255,255,.7)"/></g>
+    <g transform="rotate(7 360 160)"><rect x="318" y="58" width="104" height="210" rx="20" ${s}/><rect x="330" y="84" width="80" height="80" rx="40" ${f}/><rect x="330" y="176" width="80" height="10" rx="3" ${f}/><rect x="330" y="194" width="56" height="10" rx="3" ${f}/></g></svg>`;
+  if (d === "social") { let t = ""; for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) { const x = 170 + c * 76, y = 30 + r * 76; t += `<rect x="${x}" y="${y}" width="68" height="68" rx="8" ${(r + c) % 2 ? f : s}/>`; if ((r * 3 + c) % 3 === 0) t += `<path d="M${x + 28} ${y + 24} l16 10 -16 10z" fill="rgba(255,255,255,.75)"/>`; } return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${t}</svg>`; }
+  /* ads */
+  return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect x="262" y="26" width="120" height="240" rx="22" ${s}/><rect x="274" y="56" width="96" height="10" rx="3" ${f}/><rect x="274" y="74" width="96" height="104" rx="6" ${f}/>
+    <text x="276" y="196" fill="rgba(255,255,255,.6)" font-family="monospace" font-size="9">SPONSORED</text><rect x="274" y="206" width="96" height="22" rx="11" fill="rgba(255,255,255,.7)"/>
+    <polyline points="40,250 90,230 130,236 170,196 205,186 240,140" ${s}/><path d="M228 140 L242 138 L240 152" ${s}/>
+    <rect x="48" y="258" width="22" height="0" ${f}/></svg>`;
+}
+function coverHTML(c, opt = {}) {
+  const cl = CLIENTS[c.c];
+  return `<div class="cover" style="--tone:${cl.tone}">${coverSVG(c.d)}<span class="cv-tag">${DISCIPLINES[c.d].short}${c.status ? " · " + esc(c.status) : ""}</span><div class="cv-name">${esc(opt.name || cl.name)}</div></div>`;
+}
+
+/* ---------------- marquee ---------------- */
+const names = [...new Set(Object.values(CLIENTS).map(c => c.name))];
+const mqHTML = arr => arr.map(n => `<span class="mq-item">${esc(n)}<img src="assets/icon-white.png" alt=""></span>`).join("");
+const half = Math.ceil(names.length / 2);
+$("#mq1").innerHTML = mqHTML(names.slice(0, half)).repeat(3);
+$("#mq2").innerHTML = mqHTML(names.slice(half)).repeat(3);
+
+/* ---------------- featured ---------------- */
+const FEAT = ["samrajya-ads", "abhiyantri-app", "velmo-web", "arogya-ads", "tirthnow-app", "nari18-social"];
+$("#hz").innerHTML = FEAT.map(id => { const c = byId[id], cl = CLIENTS[c.c]; return `<a class="card" href="#cs-${c.id}" data-cursor="View">${coverHTML(c)}<div class="meta"><h3>${esc(c.title)}</h3><span class="mono mute">${DISCIPLINES[c.d].short}</span></div></a>`; }).join("");
+
+/* ---------------- services ---------------- */
+const SERVICES = [
+  { t: "Performance marketing", d: "Meta Ads on Facebook and Instagram for leads, orders, calls and installs. Strategy, creatives, tracking and weekly optimisation.", tags: ["Meta Ads", "Lead gen", "Pixel & CAPI", "Retargeting"], f: "ads" },
+  { t: "Websites & web apps", d: "Fast, SEO-ready websites, landing pages, marketplaces and e-commerce, from a single landing page to a full platform.", tags: ["Next.js", "React", "Tailwind", "Node.js", "Python"], f: "web" },
+  { t: "Mobile apps", d: "Android and iOS apps from one codebase, with the backend and admin panel to run them.", tags: ["Flutter", "React Native", "Firebase", "Payments"], f: "app" },
+  { t: "CRMs & custom software", d: "CRMs, dashboards and internal tools built around how your team actually works, plus our own ready-built products.", tags: ["CRM", "Role-based access", "Windows apps", "Integrations"], f: "app" },
+  { t: "AI & agents", d: "AI agents and assistants that answer leads, qualify enquiries and automate repetitive work, connected to your CRM and WhatsApp.", tags: ["AI agents", "RAG", "WhatsApp bots", "Automation"], f: null },
+  { t: "Social media", d: "Content calendars, Reels, carousels and community management for brands and creators.", tags: ["Instagram", "Facebook", "YouTube", "LinkedIn"], f: "social" },
+  { t: "Video production", d: "Shoots, ad films, Reels and monthly editing retainers with colour grading, sound and motion graphics.", tags: ["Ad films", "Reels", "Colour", "Motion"], f: "social" },
+  { t: "UI/UX design", d: "Research, wireframes and Figma prototypes that developers can build without guessing.", tags: ["Figma", "Prototyping", "Design systems"], f: "web" }
+];
+$("#svcStack").innerHTML = SERVICES.map((s, i) => {
+  const n = s.f ? CASES.filter(c => c.d === s.f).length : 0;
+  const sample = s.f ? CASES.find(c => c.d === s.f && !FEAT.includes(c.id)) || CASES.find(c => c.d === s.f) : null;
+  return `<article class="svc" style="--i:${i}">
+    <div><span class="mono mute">${String(i + 1).padStart(2, "0")} / ${String(SERVICES.length).padStart(2, "0")}</span><h3 style="margin-top:14px">${esc(s.t)}</h3></div>
+    <div><p class="desc">${esc(s.d)}</p><div class="tags" style="margin-top:20px">${s.tags.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+    ${s.f ? `<a class="link" href="#work" data-filter="${s.f}">See ${n} ${DISCIPLINES[s.f].label.toLowerCase()} case studies →</a>` : `<a class="link" href="#contact" data-scroll>Talk to us about AI →</a>`}</div>
+    <div class="svc-art">${sample ? coverHTML(sample) : coverHTML({ c: "sap", d: "app" }, { name: "AI agents" })}</div>
+  </article>`;
+}).join("");
+
+/* ---------------- work index ---------------- */
+const ORDER = ["all", "ads", "web", "app", "social"];
+let current = "all";
+function renderFilters() {
+  $("#filters").innerHTML = ORDER.map(k => { const n = k === "all" ? CASES.length : CASES.filter(c => c.d === k).length; return `<button aria-pressed="${k === current}" data-f="${k}">${k === "all" ? "All work" : DISCIPLINES[k].label}<sup>${n}</sup></button>`; }).join("");
+}
+function renderIndex() {
+  const list = CASES.filter(c => current === "all" || c.d === current);
+  $("#idx").innerHTML = list.map((c, i) => `<li><a href="#cs-${c.id}" data-peek="${c.id}"><span class="n">${String(i + 1).padStart(2, "0")}</span><span class="cl">${esc(CLIENTS[c.c].name)}${c.status ? `<span class="st">${esc(c.status)}</span>` : ""}</span><span class="tt">${esc(c.title)}</span><span class="dc">${DISCIPLINES[c.d].short}</span><span class="ar" aria-hidden="true">→</span></a></li>`).join("");
+  if (hasG && !RM) gsap.from("#idx li", { opacity: 0, y: 24, duration: .6, stagger: .03, ease: "power3.out" });
+  window.ScrollTrigger && ScrollTrigger.refresh();
+}
+function setFilter(k) { current = k; renderFilters(); renderIndex(); }
+$("#filters").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setFilter(b.dataset.f); });
+renderFilters(); renderIndex();
+document.addEventListener("click", e => { const a = e.target.closest("[data-filter]"); if (!a) return; e.preventDefault(); setFilter(a.dataset.filter); scrollToEl("#work"); });
+
+/* hover peek */
+const peek = $("#peek");
+if (FINE) {
+  let px = 0, py = 0, tx = 0, ty = 0, shown = null;
+  $("#idx").addEventListener("mouseover", e => { const a = e.target.closest("[data-peek]"); if (!a) return; if (shown !== a.dataset.peek) { shown = a.dataset.peek; peek.innerHTML = coverHTML(byId[shown]); } peek.classList.add("on"); });
+  $("#idx").addEventListener("mouseleave", () => { peek.classList.remove("on"); });
+  addEventListener("mousemove", e => { tx = e.clientX + 200; ty = e.clientY; });
+  (function loop() { px += (tx - px) * .12; py += (ty - py) * .12; peek.style.left = px + "px"; peek.style.top = py + "px"; requestAnimationFrame(loop); })();
+}
+
+/* ---------------- products ---------------- */
+$("#prodGrid").innerHTML = PRODUCTS.map(p => `<article class="prod" data-tilt><span class="chip tag mono" style="font-size:11px">${esc(p.tag)}</span><h3>${esc(p.name)}</h3><p class="mute">${esc(p.text)}</p><ul>${p.pts.map(x => `<li>${esc(x)}</li>`).join("")}</ul></article>`).join("");
+
+/* ---------------- smooth scroll ---------------- */
+let lenis = null;
+if (window.Lenis && !RM) {
+  lenis = new Lenis({ lerp: .09, smoothWheel: true });
+  if (hasG && window.ScrollTrigger) { lenis.on("scroll", ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  else { (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(); }
+}
+function scrollToEl(sel) {
+  const el = typeof sel === "string" ? $(sel) : sel; if (!el) return;
+  if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 }); else el.scrollIntoView({ behavior: RM ? "auto" : "smooth" });
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-scroll]"); if (!a) return;
+  e.preventDefault(); closeSheet(); scrollToEl(a.getAttribute("href") === "#top" ? document.body : a.getAttribute("href"));
+});
+
+/* mobile menu */
+const sheet = $("#sheet");
+function closeSheet() { sheet.classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded", "false"); }
+$("#menuBtn").onclick = () => { sheet.classList.add("open"); $("#menuBtn").setAttribute("aria-expanded", "true"); };
+$("#menuClose").onclick = closeSheet;
+
+/* ---------------- cursor + magnetic ---------------- */
+if (FINE && !RM) {
+  const cur = $("#cur"), ring = $(".ring", cur), lbl = $(".lbl", cur);
+  let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y;
+  addEventListener("mousemove", e => { x = e.clientX; y = e.clientY; });
+  (function loop() { rx += (x - rx) * .18; ry += (y - ry) * .18; cur.style.transform = `translate(${x}px,${y}px)`; ring.style.transform = `translate(calc(-50% + ${rx - x}px),calc(-50% + ${ry - y}px))`; lbl.style.transform = ring.style.transform; requestAnimationFrame(loop); })();
+  document.addEventListener("mouseover", e => {
+    const t = e.target.closest("a,button,[data-cursor],label"); cur.classList.toggle("hover", !!t);
+    const l = t && t.closest("[data-cursor],[data-peek]"); cur.classList.toggle("has-lbl", !!l); if (l) lbl.textContent = l.dataset.cursor || "Open";
+  });
+  document.addEventListener("mousemove", e => {
+    $$("[data-mag]").forEach(b => {
+      const r = b.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, dx = e.clientX - cx, dy = e.clientY - cy;
+      const near = Math.hypot(dx, dy) < Math.max(r.width, r.height);
+      b.style.transform = near ? `translate(${dx * .25}px,${dy * .35}px)` : "";
+    });
+  }, { passive: true });
+  /* 3D tilt on product cards */
+  document.addEventListener("mousemove", e => {
+    const p = e.target.closest("[data-tilt]"); $$("[data-tilt]").forEach(el => { if (el !== p) el.style.transform = ""; });
+    if (!p) return; const r = p.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+    p.style.transform = `perspective(900px) rotateY(${nx * 8}deg) rotateX(${-ny * 8}deg)`;
+  }, { passive: true });
+}
+
+/* copy buttons */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  const done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1600); };
+  const fallback = () => { const v = b.parentElement.querySelector(".v"); const r = document.createRange(); r.selectNodeContents(v); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected"; setTimeout(() => b.textContent = "Copy", 1600); };
+  try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch (_) { fallback(); }
+});
+
+/* brief → WhatsApp */
+$("#brief").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("#f-name").value.trim(); $("#formErr").hidden = !!name; if (!name) { $("#f-name").focus(); return; }
+  const need = $$("#svcPick input:checked").map(i => i.value).join(", ") || "Not sure yet";
+  const txt = `Hi StudioAdsPro, I'm ${name}${$("#f-biz").value.trim() ? " from " + $("#f-biz").value.trim() : ""}.\nI need: ${need}.\n${$("#f-msg").value.trim()}`;
+  $("#sendWa").href = "https://wa.me/919151781802?text=" + encodeURIComponent(txt); $("#sent").hidden = false;
+});
+
+/* ================= 3D LOGO (Three.js) ================= */
+const hero3D = { p: 0, ink: 0 };
+function initGL() {
+  const canvas = $("#gl");
+  if (!window.THREE) { document.documentElement.classList.add("no-gl"); return; }
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (_) { document.documentElement.classList.add("no-gl"); return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(32, 1, .1, 100); cam.position.set(0, 0, 10);
+
+  /* studio environment for reflections */
+  const pm = new THREE.PMREMGenerator(renderer);
+  const env = new THREE.Scene(); env.background = new THREE.Color(0x000000);
+  const bg = new THREE.BoxGeometry(1, 1, 1);
+  const lamp = (x, y, z, sx, sy, sz, k) => { const m = new THREE.Mesh(bg, new THREE.MeshBasicMaterial({ color: new THREE.Color(k, k, k) })); m.position.set(x, y, z); m.scale.set(sx, sy, sz); env.add(m); };
+  lamp(0, 7, 2, 12, .3, 3, 4); lamp(-7, 1, 3, .3, 6, 2, 2.5); lamp(7, -1, 1, .3, 4, 2, 2); lamp(0, -6, 4, 8, .3, 2, .6); lamp(2.5, 3, 8, 2, 1.2, .3, 3);
+  scene.environment = pm.fromScene(env, .02).texture;
+  scene.add(new THREE.AmbientLight(0xffffff, .25));
+  const key = new THREE.DirectionalLight(0xffffff, .6); key.position.set(-3, 5, 6); scene.add(key);
+
+  /* build the bubble from the traced logo contour */
+  const L = LOGO3D, S = 3.4 / Math.max(L.w, L.h);
+  const chaikin = (pts, n) => { for (let k = 0; k < n; k++) { const o = []; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; o.push([a[0] * .75 + b[0] * .25, a[1] * .75 + b[1] * .25], [a[0] * .25 + b[0] * .75, a[1] * .25 + b[1] * .75]); } pts = o; } return pts; };
+  const v1 = p => new THREE.Vector2((p[0] - L.w / 2) * S, -(p[1] - L.h / 2) * S);
+  const sm = arr => chaikin(arr, 2).map(v1);
+  const depth = .46;
+  const ext = d => ({ depth: d, bevelEnabled: true, bevelThickness: .06, bevelSize: .03, bevelSegments: 5, curveSegments: 6, steps: 1 });
+  const black = new THREE.MeshPhysicalMaterial({ color: 0x060606, roughness: .35, metalness: 0, clearcoat: 1, clearcoatRoughness: .06, envMapIntensity: 1 });
+  const white = new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: .3, metalness: 0, clearcoat: .6, envMapIntensity: .9 });
+  const logo = new THREE.Group();
+  const bubble = new THREE.Shape(sm(L.outer)); L.holes.forEach(h => bubble.holes.push(new THREE.Path(sm(h))));
+  const bg1 = new THREE.ExtrudeGeometry(bubble, ext(depth)); bg1.translate(0, 0, -depth / 2);
+  logo.add(new THREE.Mesh(bg1, black));
+  L.holes.forEach(h => { const g = new THREE.ExtrudeGeometry(new THREE.Shape(sm(h)), { depth: depth + .2, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -(depth + .2) / 2); logo.add(new THREE.Mesh(g, white)); });
+  L.sparks.forEach(h => { const g = new THREE.ExtrudeGeometry(new THREE.Shape(sm(h)), ext(depth * .6)); g.translate(0, 0, -depth * .3); logo.add(new THREE.Mesh(g, black)); });
+  const pivot = new THREE.Group(); pivot.add(logo); scene.add(pivot);
+
+  /* soft contact shadow */
+  const sc = document.createElement("canvas"); sc.width = sc.height = 128; const sx = sc.getContext("2d");
+  const gr = sx.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, "rgba(0,0,0,.45)"); gr.addColorStop(1, "rgba(0,0,0,0)"); sx.fillStyle = gr; sx.fillRect(0, 0, 128, 128);
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(4, 1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
+
+  /* orbiting satellites: build (code bracket cube), shoot (play), automate (ring), grow (arrow) */
+  const sats = [];
+  const addSat = (geo, mat, r, sp, ph, yy) => { const m = new THREE.Mesh(geo, mat); scene.add(m); sats.push({ m, r, sp, ph, yy }); };
+  const tri = new THREE.Shape([new THREE.Vector2(-.18, -.2), new THREE.Vector2(.22, 0), new THREE.Vector2(-.18, .2)]);
+  addSat(new THREE.ExtrudeGeometry(tri, { depth: .08, bevelEnabled: true, bevelSize: .02, bevelThickness: .02, bevelSegments: 3 }), white, 2.7, .35, 0, .9);
+  addSat(new THREE.TorusGeometry(.2, .06, 24, 64), black, 2.9, .28, 2.1, -1.1);
+  addSat(new THREE.SphereGeometry(.16, 32, 32), white, 2.5, .42, 4.0, -.2);
+  addSat(new THREE.BoxGeometry(.26, .26, .26), black, 3.1, .22, 5.2, 1.4);
+
+  let W = 0, H = 0, mobile = false, mx = 0, my = 0, tmx = 0, tmy = 0, run = true;
+  function size() {
+    const r = canvas.getBoundingClientRect(); W = r.width; H = r.height; mobile = W < 900;
+    renderer.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix();
+  }
+  size(); addEventListener("resize", size);
+  addEventListener("mousemove", e => { tmx = e.clientX / innerWidth - .5; tmy = e.clientY / innerHeight - .5; }, { passive: true });
+  new IntersectionObserver(es => { run = es[0].isIntersecting; }).observe($("#hero"));
+  const clock = new THREE.Clock();
+  (function tick() {
+    requestAnimationFrame(tick); if (!run) return;
+    const t = clock.getElapsedTime(); mx += (tmx - mx) * .05; my += (tmy - my) * .05;
+    const vh = 2 * Math.tan(cam.fov * Math.PI / 360) * cam.position.z, vw = vh * cam.aspect;
+    const p = hero3D.p; // 0 → 1 across hero scroll
+    const baseX = mobile ? 0 : vw * .25, baseY = mobile ? vh * .27 : vh * .02;
+    const k = mobile ? Math.min(.42, vw / 7) : Math.min(.9, vw / 9);
+    const toC = Math.min(1, p * 1.6);
+    pivot.position.set(baseX * (1 - toC * .0), baseY + Math.sin(t * 1.1) * .08, 0);
+    const sc2 = k * (1 + p * 0.9);
+    pivot.scale.setScalar(sc2);
+    logo.rotation.y = -.35 + mx * .7 + p * Math.PI * 2.0 + (RM ? 0 : Math.sin(t * .6) * .12);
+    logo.rotation.x = .12 + my * .45 + Math.sin(t * .8) * .04;
+    logo.rotation.z = -.04;
+    shadow.position.set(pivot.position.x, pivot.position.y - 2.05 * sc2, -.2); shadow.scale.setScalar(sc2 * (1 - Math.sin(t * 1.1) * .05));
+    shadow.material.opacity = 1 - toC;
+    sats.forEach((s, i) => { const a = t * s.sp + s.ph; s.m.position.set(pivot.position.x + Math.cos(a) * s.r * k * (1 + p), pivot.position.y + s.yy * k + Math.sin(t + i) * .1, Math.sin(a) * s.r * .6); s.m.rotation.set(t * .7 + i, t * .9, t * .3); s.m.scale.setScalar(k); });
+    renderer.render(scene, cam);
+  })();
+}
+
+/* ================= INTRO FILM ================= */
+const intro = $("#intro"), vid = $("#introVid");
+let introDone = false;
+function hideIntro() {
+  if (introDone) return; introDone = true;
+  if (hasG && !RM) gsap.to(intro, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut", onComplete: () => { intro.hidden = true; } });
+  else intro.hidden = true;
+  intro.classList.add("gone"); document.body.classList.remove("locked"); lenis && lenis.start();
+  heroIn();
+}
+function showIntro() {
+  introDone = false; intro.hidden = false; intro.classList.remove("gone"); intro.style.clipPath = "inset(0 0 0% 0)";
+  document.body.classList.add("locked"); lenis && lenis.stop(); vid.currentTime = 0; vid.play().catch(() => {});
+}
+vid.addEventListener("timeupdate", () => { const p = vid.duration ? vid.currentTime / vid.duration : 0; $("#introFill").style.transform = `scaleX(${p})`; $("#introPct").textContent = String(Math.round(p * 100)).padStart(3, "0"); });
+vid.addEventListener("ended", hideIntro);
+vid.addEventListener("error", hideIntro);
+$("#skipIntro").onclick = hideIntro;
+$("#replayIntro").onclick = showIntro;
+
+function heroIn() {
+  if (!hasG || RM) return;
+  gsap.from(".hero h1 .ln>span", { yPercent: 110, duration: 1.2, stagger: .08, ease: "expo.out", delay: .25 });
+  gsap.from(".hero-top, .hero-lede, .hero .btns, .hero-meta", { opacity: 0, y: 20, duration: 1, stagger: .08, ease: "power3.out", delay: .5 });
+}
+
+let seen = false; try { seen = sessionStorage.getItem("sap-intro") === "1"; sessionStorage.setItem("sap-intro", "1"); } catch (_) {}
+const startsOnCase = /^#cs-/.test(location.hash);
+if (seen || RM || startsOnCase) { intro.hidden = true; introDone = true; }
+else { document.body.classList.add("locked"); lenis && lenis.stop(); vid.play().catch(() => setTimeout(hideIntro, 400)); setTimeout(() => { if (!introDone) hideIntro(); }, 9500); }
+
+/* ================= SCROLL CHOREOGRAPHY ================= */
+function initScroll() {
+  if (!hasG || !window.ScrollTrigger || RM) return;
+  const mob = () => innerWidth < 900;
+  /* hero: 3D logo spins, copy lifts away, ink circle opens from the logo */
+  ScrollTrigger.create({ trigger: "#hero", start: "top top", end: "bottom bottom", scrub: true,
+    onUpdate: s => {
+      const p = s.progress; hero3D.p = Math.min(1, p / .45);
+      const ink = gsap.utils.clamp(0, 1, (p - .28) / .34);
+      const msg = gsap.utils.clamp(0, 1, (p - .55) / .2), inner = $("#heroInk>div");
+      inner.style.opacity = msg; inner.style.transform = `scale(${.85 + msg * .15}) translateY(${(1 - msg) * 30}px)`;
+      const at = mob() ? "50% 23%" : "72% 50%";
+      $("#heroInk").style.clipPath = `circle(${(ink * 150).toFixed(2)}% at ${at})`;
+      const c = gsap.utils.clamp(0, 1, p / .4);
+      $("#heroCopy").style.transform = `translateY(${-c * 120}px)`; $("#heroCopy").style.opacity = 1 - c * 1.1;
+    } });
+  /* nav hides on the way down, returns on the way up */
+  let lastY = 0; ScrollTrigger.create({ onUpdate: s => { const y = s.scroll(); $(".nav").classList.toggle("up", y > 300 && y > lastY); lastY = y; } });
+
+  /* manifesto word-by-word */
+  const m = $("#manifesto"); m.innerHTML = m.textContent.split(" ").map(w => `<span class="w">${w}</span>`).join(" ");
+  gsap.to("#manifesto .w", { opacity: 1, stagger: .05, ease: "none", scrollTrigger: { trigger: "#manifesto", start: "top 80%", end: "bottom 45%", scrub: true } });
+
+  /* counters */
+  $$("[data-count]").forEach(el => { const o = { v: 0 }; gsap.to(o, { v: +el.dataset.count, duration: 2, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 90%" }, onUpdate: () => el.textContent = Math.round(o.v) + el.dataset.suffix }); });
+
+  /* marquee driven by scroll velocity */
+  const rows = [$("#mq1"), $("#mq2")]; let off = [0, 0], vel = 0;
+  ScrollTrigger.create({ onUpdate: s => { vel = s.getVelocity() / 300; } });
+  gsap.ticker.add(() => { rows.forEach((r, i) => { const w = r.scrollWidth / 3; off[i] += (i ? 1 : -1) * (0.6 + Math.abs(vel)) ; if (off[i] < -w) off[i] += w; if (off[i] > 0) off[i] -= w; r.style.transform = `translateX(${off[i]}px) skewX(${gsap.utils.clamp(-8, 8, -vel * 2)}deg)`; }); vel *= .92; });
+
+  /* featured: pinned horizontal scroll on desktop */
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 900px)", () => {
+    const track = $("#hz");
+    const dist = () => track.scrollWidth - innerWidth;
+    gsap.to(track, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: "#featured", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 } });
+    /* service cards shrink as the next one stacks on top */
+    $$(".svc").forEach((c, i, all) => { if (i === all.length - 1) return; gsap.to(c, { scale: .94, opacity: .45, ease: "none", scrollTrigger: { trigger: all[i + 1], start: "top 85%", end: "top 30%", scrub: true } }); });
+  });
+
+  /* headings rise in */
+  $$(".h2, .contact h2").forEach(h => gsap.from(h, { y: 60, opacity: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: h, start: "top 88%" } }));
+  gsap.from(".prod", { y: 50, opacity: 0, stagger: .08, duration: .9, ease: "power3.out", scrollTrigger: { trigger: "#prodGrid", start: "top 85%" } });
+  gsap.from(".proc li", { y: 40, opacity: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".proc", start: "top 85%" } });
+  gsap.from(".foot-mark img", { yPercent: 60, opacity: 0, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: "footer", start: "top 90%" } });
+  addEventListener("load", () => ScrollTrigger.refresh());
+}
+
+/* ================= CASE STUDY OVERLAY ================= */
+const cs = $("#cs"), curtain = $("#curtain");
+let openId = null, openedInSite = false;
+function caseHTML(c) {
+  const cl = CLIENTS[c.c], D = DISCIPLINES[c.d];
+  const i = CASES.indexOf(c), nx = CASES[(i + 1) % CASES.length];
+  const siblings = CASES.filter(x => x.c === c.c && x.id !== c.id);
+  const site = cl.url ? `<a href="${cl.url}" target="_blank" rel="noopener">${esc(cl.url.replace(/^https?:\/\//, ""))} ↗</a>` : "Private / internal";
+  const facts = (c.facts || []).map(f => `<div class="fact"><span class="mono" style="opacity:.6">${esc(f[0])}</span><b>${esc(f[1])}</b></div>`).join("");
+  const res = (c.results || []).map(f => `<div class="fact res"><span class="mono mute">${esc(f[1])}</span><b>${esc(f[0])}</b></div>`).join("");
+  return `
+  <div class="cs-bar wrap"><button class="cs-back" id="csBack">← All work</button><img src="assets/wordmark-black.png" alt="studio ads pro"><span class="mono mute">${String(i + 1).padStart(2, "0")} / ${CASES.length}</span></div>
+  <article>
+    <header class="cs-hero wrap">
+      <div class="crumbs"><span class="chip mono" style="font-size:11px">${esc(D.label)}</span><span class="chip mono" style="font-size:11px">${esc(cl.industry)}</span>${c.status ? `<span class="chip mono" style="font-size:11px">${esc(c.status)}</span>` : ""}</div>
+      <h1 id="csTitle">${esc(c.title)}</h1>
+      <dl class="cs-meta">
+        <div><dt>Client</dt><dd>${esc(cl.name)}</dd></div>
+        <div><dt>Location</dt><dd>${esc(cl.location)}</dd></div>
+        <div><dt>Services</dt><dd>${c.services.map(esc).join(", ")}</dd></div>
+        <div><dt>Website</dt><dd>${site}</dd></div>
+      </dl>
+    </header>
+    <div class="cs-cover wrap">${coverHTML(c)}</div>
+    <div class="wrap">
+      <section class="cs-sec"><h2>The client</h2><div class="body"><p>${esc(cl.about)}</p></div></section>
+      <section class="cs-sec"><h2>The challenge</h2><div class="body"><p>${esc(c.challenge)}</p></div></section>
+      <section class="cs-sec"><h2>Our approach</h2><div class="moves">${c.approach.map(a => `<div class="move"><h3>${esc(a[0])}</h3><p>${esc(a[1])}</p></div>`).join("")}</div></section>
+      <section class="cs-sec"><h2>What we delivered</h2><ul class="deliv">${c.delivered.map(d => `<li>${esc(d)}</li>`).join("")}</ul></section>
+      ${res ? `<section class="cs-sec" style="border:0;padding-bottom:0"><h2>Results</h2><div></div></section><div class="facts" style="padding-top:24px">${res}</div>` : ""}
+      <div class="facts">${facts}</div>
+      <section class="cs-sec" style="border-bottom:0"><h2>${c.d === "ads" || c.d === "social" ? "Channels &amp; tools" : "Tech stack"}</h2><div><div class="stack">${c.stack.map(s => `<span class="chip">${esc(s)}</span>`).join("")}</div>
+        ${siblings.length ? `<p class="mono mute" style="margin-top:36px">More work for ${esc(cl.name)}</p><div class="more">${siblings.map(s => `<a href="#cs-${s.id}">${esc(DISCIPLINES[s.d].label)} →</a>`).join("")}</div>` : ""}
+        <div class="btns" style="margin-top:36px"><a class="btn solid" href="https://wa.me/919151781802?text=${encodeURIComponent("Hi StudioAdsPro, I saw the " + cl.name + " case study and want something similar.")}" target="_blank" rel="noopener">Want results like this? ↗</a></div>
+      </div></section>
+    </div>
+    <a class="cs-next" href="#cs-${nx.id}"><div class="wrap row"><div><p class="mono" style="opacity:.6;margin-bottom:18px">Next case · ${esc(DISCIPLINES[nx.d].label)}</p><h2>${esc(CLIENTS[nx.c].name)} →</h2><p class="mute" style="margin-top:16px;max-width:40ch">${esc(nx.title)}</p></div>${coverHTML(nx)}</div></a>
+  </article>`;
+}
+function wipe(mid) {
+  if (!hasG || RM) { mid(); return; }
+  gsap.timeline()
+    .set(curtain, { y: 0, yPercent: 100 })
+    .to(curtain, { yPercent: 0, duration: .55, ease: "expo.in" })
+    .add(mid)
+    .to(curtain, { yPercent: -100, duration: .7, ease: "expo.out", delay: .05 });
+}
+function openCase(id) {
+  const c = byId[id]; if (!c) return;
+  const first = cs.hidden;
+  wipe(() => {
+    cs.innerHTML = caseHTML(c); cs.hidden = false; cs.scrollTop = 0; openId = id;
+    document.body.classList.add("locked"); lenis && lenis.stop();
+    document.title = CLIENTS[c.c].name + " · " + DISCIPLINES[c.d].label + " — StudioAdsPro";
+    $("#csBack").onclick = () => { if (openedInSite) history.back(); else { history.replaceState(null, "", location.pathname + location.search); closeCase(); } };
+    if (hasG && !RM) { gsap.from("#cs .cs-hero h1, #cs .crumbs, #cs .cs-meta", { y: 40, opacity: 0, stagger: .08, duration: 1, ease: "expo.out", delay: .25 }); gsap.from("#cs .cs-cover .cover", { clipPath: "inset(30% 10% 30% 10% round 18px)", duration: 1.4, ease: "expo.out", delay: .35 }); }
+    if (first) $("#csBack").focus({ preventScroll: true });
+  });
+}
+function closeCase() {
+  if (cs.hidden) return;
+  wipe(() => { cs.hidden = true; cs.innerHTML = ""; openId = null; document.title = "StudioAdsPro Portfolio"; document.body.classList.remove("locked"); lenis && lenis.start(); window.ScrollTrigger && ScrollTrigger.refresh(); });
+}
+function route() {
+  const h = location.hash.replace(/^#/, "");
+  if (h.startsWith("cs-")) { const id = h.slice(3); if (id !== openId) openCase(id); }
+  else if (openId) closeCase();
+  else if (h && $("#" + h)) setTimeout(() => scrollToEl("#" + h), 50);
+}
+document.addEventListener("click", e => { const a = e.target.closest('a[href^="#cs-"]'); if (a) openedInSite = true; });
+addEventListener("hashchange", route);
+addEventListener("keydown", e => { if (e.key === "Escape" && openId) $("#csBack") && $("#csBack").click(); });
+
+/* boot */
+initGL();
+initScroll();
+if (introDone && !startsOnCase) heroIn();
+route();
+})();
+</script>
+
+</body></html>
