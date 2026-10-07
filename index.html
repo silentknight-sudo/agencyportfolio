@@ -1106,8 +1106,10 @@ function coverSVG(d) {
     <rect x="48" y="258" width="22" height="0" ${f}/></svg>`;
 }
 const COVER_IMGS = new Set(["abhiyantri-web", "arogya-ads", "arogya-app", "arogya-social", "bubbles-ads", "dxn-ads", "dxn-web", "fastrack-social", "girija-web", "nari18-ads", "nari18-social", "nikunj-ads", "nikunj-web", "noidadrive-app", "omjyoti-web", "propertylelo-ads", "propertylelo-app", "propertylelo-web", "samrajya-ads", "samrajya-web", "srm-ads", "srm-web", "tirthnow-ads", "tirthnow-web", "vanliferavi-social", "velmo-web"]);
+/* cases without their own cover reuse another cover from the same client */
+const COVER_ALIAS = { "arogya-web": "arogya-ads", "tirthnow-app": "tirthnow-ads", "abhiyantri-app": "abhiyantri-web", "omjyoti-app": "omjyoti-web", "propertylelo-social": "propertylelo-ads" };
 function coverArt(c) {
-  const k = `${c.c}-${c.d}`;
+  const k = COVER_ALIAS[`${c.c}-${c.d}`] || `${c.c}-${c.d}`;
   return COVER_IMGS.has(k) ? `<img class="cv-img" src="assets/covers/${k}.jpg" alt="" loading="lazy" decoding="async">` : coverSVG(c.d);
 }
 function coverHTML(c, opt = {}) {
